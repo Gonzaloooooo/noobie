@@ -58,16 +58,16 @@ public:
     static uint64_t clearBit(uint64_t board, int to);
 
     // Gets the position of a type of piece using the color and pieces indexes defined in Board
-    uint64_t getBitboardFromType(int pieceType);
+    uint64_t getBitboardFromType(int pieceType) const;
 
     // Gets the position of all white pieces in a single bitboard
-    uint64_t getWhiteBitBoard();
+    uint64_t getWhiteBitBoard() const;
 
     // Gets the position of all black pieces in a single bitboard
-    uint64_t getBlackBitBoard();
+    uint64_t getBlackBitBoard() const;
 
     // Gets the position of all pieces in a single bitboard
-    uint64_t getOccupiedBitBoard();
+    uint64_t getOccupiedBitBoard() const;
 
 private:
     bool validateMove(uint64_t from, uint64_t to);
