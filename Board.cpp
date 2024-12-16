@@ -65,7 +65,7 @@ uint64_t Board::clearBit(uint64_t board, int to) {
     return board & ~(1ULL << to);
 }
 
-// Gets the position of a type of piece
+// Gets the position of all pieces of a certain type and color
 uint64_t Board::getBitboardFromType(int pieceType) {
     return pieces[pieceType];
 }
