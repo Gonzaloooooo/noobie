@@ -66,25 +66,25 @@ uint64_t Board::clearBit(uint64_t board, int to) {
 }
 
 // Gets the position of all pieces of a certain type and color
-uint64_t Board::getBitboardFromType(int pieceType) {
+uint64_t Board::getBitboardFromType(int pieceType) const{
     return pieces[pieceType];
 }
 
 //
-uint64_t Board::getWhiteBitBoard() {
+uint64_t Board::getWhiteBitBoard() const{
     return pieces[W_PAWN] | pieces[W_BISHOP] |
         pieces[W_KNIGHT] | pieces[W_TOWER] |
         pieces[W_QUEEN] | pieces[W_KING];
 }
 
 //
-uint64_t Board::getBlackBitBoard() {
+uint64_t Board::getBlackBitBoard() const{
     return pieces[B_PAWN] | pieces[B_BISHOP] |
         pieces[B_KNIGHT] | pieces[B_TOWER] |
         pieces[B_QUEEN] | pieces[B_KING];
 }
 
-uint64_t Board::getOccupiedBitBoard() {
+uint64_t Board::getOccupiedBitBoard() const{
     return getBlackBitBoard() | getWhiteBitBoard();
 }
 

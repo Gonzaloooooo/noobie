@@ -2,10 +2,14 @@
 //
 
 #include <iostream>
+#include "Board.h"
+#include "MoveGenerator.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    Board b;
+    MoveGenerator moveGen;
+    moveGen.generateMoves(b);
 }
 
 // Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar

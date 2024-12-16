@@ -5,10 +5,10 @@ std::vector<Move> MoveGenerator::generateMoves(const Board& board) {
 }
 
 void MoveGenerator::generatePawnMoves(const Board& board, std::vector<Move>& moves) {
-    generateWhitePawnMoves(board, moves);
+    generateWhitePawnsMoves(board, moves);
 }
 
-void MoveGenerator::generateWhitePawnMoves(const Board& board, std::vector<Move>& moves) {
+void MoveGenerator::generateWhitePawnsMoves(const Board& board, std::vector<Move>& moves) {
     uint64_t pawns = board.getBitboardFromType(board.W_PAWN);
     uint64_t occupied = board.getOccupiedBitBoard();
     for (int i = 0; i < 64; i++) {
