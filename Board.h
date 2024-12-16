@@ -43,7 +43,6 @@ public:
     Board();
 
     // Métodos públicos
-
     void printBitboard(uint64_t bitboard); // Imprime el bitboard en formato visual
     void make_move(int from, int to);      // Realiza un movimiento de una casilla a otra
     void print();
