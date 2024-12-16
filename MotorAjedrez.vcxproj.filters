@@ -13,30 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Archivos de origen\src">
-      <UniqueIdentifier>{51a72db2-1c0a-4891-8472-740f3abcd311}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de encabezado\headers">
-      <UniqueIdentifier>{25ab244d-19f5-4a78-979f-cc1e62cbb84b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MotorAjedrez.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="Board.cpp">
-      <Filter>Archivos de origen\src</Filter>
+      <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="MoveGenerator.cpp">
-      <Filter>Archivos de origen\src</Filter>
+      <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h">
-      <Filter>Archivos de encabezado\headers</Filter>
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="MoveGenerator.h">
-      <Filter>Archivos de encabezado\headers</Filter>
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
