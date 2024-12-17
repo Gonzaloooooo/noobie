@@ -9,7 +9,12 @@ int main()
 {
     Board b;
     MoveGenerator moveGen;
-    moveGen.generateMoves(b);
+    auto moves = moveGen.generateMoves(b);
+    for (auto& move : moves) {
+        std::string from = "From: " + move.from;
+        std::string to = " - To: " + move.to;
+        std::cout << from+to << std::endl;
+    }
 }
 
 // Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar
