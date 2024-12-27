@@ -2,17 +2,23 @@
 //
 
 #include <iostream>
+#include <string>
 #include "Board.h"
 #include "MoveGenerator.h"
 
 int main()
 {
+    const int WHITE = 0;
+    const int BLACK = 1;
+
     Board b;
     MoveGenerator moveGen;
-    auto moves = moveGen.generateMoves(b);
+
+    auto moves = moveGen.generateMoves(b, WHITE);
+
     for (auto& move : moves) {
-        std::string from = "From: " + move.from;
-        std::string to = " - To: " + move.to;
+        std::string from = "From: " + std::to_string(move.from);
+        std::string to = " - To: " + std::to_string(move.to);
         std::cout << from+to << std::endl;
     }
 }
