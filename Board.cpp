@@ -18,6 +18,23 @@ Board::Board() {
     pieces[B_QUEEN] = 16ULL << 56;
 }
 
+Board::Board(uint64_t w_pawn, uint64_t w_bishop, uint64_t w_knight, uint64_t w_tower, uint64_t w_king, uint64_t w_queen, uint64_t b_pawn, uint64_t b_bishop, uint64_t b_knight, uint64_t b_tower, uint64_t b_king, uint64_t b_queen)
+{
+    pieces[W_PAWN] = w_pawn;
+    pieces[W_KNIGHT] = w_knight;
+    pieces[W_BISHOP] = w_bishop;
+    pieces[W_TOWER] = w_tower;
+    pieces[W_KING] = w_king;
+    pieces[W_QUEEN] = w_queen;
+
+    pieces[B_PAWN] = b_pawn;
+    pieces[B_KNIGHT] = b_knight;
+    pieces[B_BISHOP] = b_bishop;
+    pieces[B_TOWER] = b_tower;
+    pieces[B_KING] = b_king;
+    pieces[B_QUEEN] = b_queen;
+}
+
 void Board::printBitboard(uint64_t bitboard) {
     for (int rank = 7; rank >= 0; --rank) {
         for (int file = 0; file < 8; ++file) {

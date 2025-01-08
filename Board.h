@@ -8,9 +8,6 @@ class Board
 private:
     // Almacena las posiciones de las piezas de ajedrez
     uint64_t pieces[12];
-    uint64_t white;    // Posiciones de las piezas blancas
-    uint64_t black;    // Posiciones de las piezas negras
-    uint64_t occupied; // Posiciones ocupadas por cualquier pieza
 
     // Variables indican si el enroque es posible
     bool blackCastleLeft = true;
@@ -47,6 +44,9 @@ public:
 
     // Default constructor 
     Board();
+
+    Board(uint64_t w_pawn, uint64_t w_bishop, uint64_t w_knight, uint64_t w_tower, uint64_t w_king, uint64_t w_queen,
+          uint64_t b_pawn, uint64_t b_bishop, uint64_t b_knight, uint64_t b_tower, uint64_t b_king, uint64_t b_queen);
 
     // Métodos públicos
     void printBitboard(uint64_t bitboard); // Imprime el bitboard en formato visual
@@ -124,4 +124,3 @@ public:
 private:
     bool validateMove(uint64_t from, uint64_t to);
 };
-
