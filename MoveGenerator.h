@@ -20,7 +20,7 @@ public:
 public:
     std::vector<Move> generateMoves(const Board& board, int color);
 private:
-    static void generatePawnMoves(const Board& board, std::vector<Move>& moves);
+    static void generatePawnMoves(const Board& board, std::vector<Move>& moves, int color);
     static void generateWhitePawnsMoves(const Board& board, std::vector<Move>& moves);
     static void generateBlackPawnMoves(const Board& board, std::vector<Move>& moves);
 

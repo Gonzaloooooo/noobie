@@ -39,6 +39,12 @@ public:
     static const short B_QUEEN = 10;
     static const short B_KING = 11;
 
+    //Límites del tablero
+    static const uint64_t left = 9259542123273814144ULL;
+    static const uint64_t right = 72340172838076673ULL;
+    static const uint64_t top = 255ULL << 56;
+    static const uint64_t bottom = 255ULL;
+
     // Default constructor 
     Board();
 
