@@ -59,8 +59,54 @@ public:
 
     int getMoves(); // Gets the number of moves that have happened in the match
 
+    /*
+    * @brief
+    * Recibe un entero de 64 bits y extrae un bit concreto que es 
+    * devuelto en otro entero de 64 bits en la misma posición en la 
+    * que se encontraba.
+    * 
+    * @params board
+    * Entero del que se extraerá el valor del bit.
+    * 
+    * @params from 
+    * Posición del bit que se va a extraer a partir 
+    * del bit menos significativo.
+    * 
+    * @returns 
+    * Devuelve un entero con el único bit indicado.
+    */
     static uint64_t getBit(uint64_t board, int from);
+    /*
+    * @brief 
+    * Pone el bit de un entero a 1 y lo devuelve.
+    * 
+    * @params board 
+    * Es el entero de 64 bits que va a ser modificado.
+    * 
+    * @params to
+    * Indica el bit que va a ser puesto a 1 a partir 
+    * del bit menos significativo.
+    * 
+    * @returns
+    * Devuelve el entero con el bit indicado puesto a 1.
+    * 
+    * @details
+    * Si el bit indicado ya vale 1, se queda igual.
+    */
     static uint64_t setBit(uint64_t board, int to);
+    /*
+    * @brief 
+    * Recibe un entero de 64 bits, pone un bit en concreto a 0 y lo devuelve.
+    * 
+    * @params board
+    * Entero de 64 bits que va a ser modificado.
+    * 
+    * @params to
+    * Posición del bit que va a ser puesto a 0 a partir 
+    * del bit menos significativo.
+    * 
+    * @returns
+    */
     static uint64_t clearBit(uint64_t board, int to);
 
     // Gets the position of a type of piece using the color and pieces indexes defined in Board

@@ -50,12 +50,10 @@ int Board::getMoves() {
     return moves;
 }
 
-// Gets the value of a bit
 uint64_t Board::getBit(uint64_t board, int from) {
     return board & (1ULL << from);
 }
 
-// Sets a bit to 1
 uint64_t Board::setBit(uint64_t board, int to) {
     return board | (1ULL << to);
 }
