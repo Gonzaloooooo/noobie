@@ -24,8 +24,8 @@ void MoveGenerator::generateWhitePawnsMoves(const Board& board, std::vector<Move
         if (from_mask & w_pawns) {
             uint64_t to_forward = from_mask << 8;
             uint64_t to_forward_2 = from_mask << 16;
-            if (!(to_forward & occupied)) { //1 square forward
-                if (!(to_forward_2 & occupied) && (from_mask & MoveGenerator::w_pawns_starting_pos)) { //2 squares forward
+            if (!(to_forward & occupied)) { // 1 square forward
+                if (!(to_forward_2 & occupied) && (from_mask & MoveGenerator::w_pawns_starting_pos)) { // 2 squares forward
                     Move m = { from , from + 16, -1 };
                     moves.push_back(m);
                 }
@@ -105,7 +105,6 @@ void MoveGenerator::generateBishopMoves(const Board& board, std::vector<Move>& m
         opposite = board.getWhiteBitBoard();
     }
 
-    
     for (int from = 0; from < 64; from++) {
         uint64_t from_mask = 1ULL << from;
         if (from_mask & bishops) {
@@ -117,5 +116,4 @@ void MoveGenerator::generateBishopMoves(const Board& board, std::vector<Move>& m
             }
         }
     }
-
 }

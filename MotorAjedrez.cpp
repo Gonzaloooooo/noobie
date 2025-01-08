@@ -11,7 +11,7 @@ int main()
     const int WHITE = 0;
     const int BLACK = 1;
 
-    Board b;
+    Board b = Board(false);
     MoveGenerator moveGen;
 
     auto moves = moveGen.generateMoves(b, WHITE);

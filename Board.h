@@ -45,6 +45,8 @@ public:
     // Default constructor 
     Board();
 
+    Board(bool empty);
+
     Board(uint64_t w_pawn, uint64_t w_bishop, uint64_t w_knight, uint64_t w_tower, uint64_t w_king, uint64_t w_queen,
           uint64_t b_pawn, uint64_t b_bishop, uint64_t b_knight, uint64_t b_tower, uint64_t b_king, uint64_t b_queen);
 

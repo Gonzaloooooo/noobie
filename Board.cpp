@@ -1,24 +1,43 @@
 #include "Board.h"
 
-Board::Board() {
-    //White pieces
-    pieces[W_PAWN] = 255ULL << 8;
-    pieces[W_BISHOP] = 66ULL;
-    pieces[W_KNIGHT] = 36ULL;
-    pieces[W_TOWER] = 129ULL;
-    pieces[W_KING] = 8ULL;
-    pieces[W_QUEEN] = 16ULL;
+Board::Board(bool empty) {
+    if (empty) {
+        //White pieces
+        pieces[W_PAWN] = 0ULL;
+        pieces[W_BISHOP] = 0ULL;
+        pieces[W_KNIGHT] = 0ULL;
+        pieces[W_TOWER] = 0ULL;
+        pieces[W_KING] = 0ULL;
+        pieces[W_QUEEN] = 0ULL;
 
-    //Black pieces
-    pieces[B_PAWN] = 255ULL << 48;
-    pieces[B_BISHOP] = 66ULL << 56;
-    pieces[B_KNIGHT] = 36ULL << 56;
-    pieces[B_TOWER] = 129ULL << 56;
-    pieces[B_KING] = 8ULL << 56;
-    pieces[B_QUEEN] = 16ULL << 56;
+        //Black pieces
+        pieces[B_PAWN] = 0ULL;
+        pieces[B_BISHOP] = 0ULL;
+        pieces[B_KNIGHT] = 0ULL;
+        pieces[B_TOWER] = 0ULL;
+        pieces[B_KING] = 0ULL;
+        pieces[B_QUEEN] = 0ULL;
+    } else {
+        //White pieces
+        pieces[W_PAWN] = 255ULL << 8;
+        pieces[W_BISHOP] = 66ULL;
+        pieces[W_KNIGHT] = 36ULL;
+        pieces[W_TOWER] = 129ULL;
+        pieces[W_KING] = 8ULL;
+        pieces[W_QUEEN] = 16ULL;
+
+        //Black pieces
+        pieces[B_PAWN] = 255ULL << 48;
+        pieces[B_BISHOP] = 66ULL << 56;
+        pieces[B_KNIGHT] = 36ULL << 56;
+        pieces[B_TOWER] = 129ULL << 56;
+        pieces[B_KING] = 8ULL << 56;
+        pieces[B_QUEEN] = 16ULL << 56;
+    }
 }
 
-Board::Board(uint64_t w_pawn, uint64_t w_bishop, uint64_t w_knight, uint64_t w_tower, uint64_t w_king, uint64_t w_queen, uint64_t b_pawn, uint64_t b_bishop, uint64_t b_knight, uint64_t b_tower, uint64_t b_king, uint64_t b_queen)
+Board::Board(uint64_t w_pawn, uint64_t w_bishop, uint64_t w_knight, uint64_t w_tower, uint64_t w_king, uint64_t w_queen, 
+             uint64_t b_pawn, uint64_t b_bishop, uint64_t b_knight, uint64_t b_tower, uint64_t b_king, uint64_t b_queen)
 {
     pieces[W_PAWN] = w_pawn;
     pieces[W_KNIGHT] = w_knight;
