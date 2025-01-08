@@ -5,8 +5,6 @@ VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MotorAjedrez", "MotorAjedrez.vcxproj", "{B09DEEA9-C420-4F43-8A84-5150BC4AD6AF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MotorAjedrezTest", "..\MotorAjedrezTest\MotorAjedrezTest.vcxproj", "{1BAEE353-C460-4511-9A8A-32C2E307213B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -23,14 +21,6 @@ Global
 		{B09DEEA9-C420-4F43-8A84-5150BC4AD6AF}.Release|x64.Build.0 = Release|x64
 		{B09DEEA9-C420-4F43-8A84-5150BC4AD6AF}.Release|x86.ActiveCfg = Release|Win32
 		{B09DEEA9-C420-4F43-8A84-5150BC4AD6AF}.Release|x86.Build.0 = Release|Win32
-		{1BAEE353-C460-4511-9A8A-32C2E307213B}.Debug|x64.ActiveCfg = Debug|x64
-		{1BAEE353-C460-4511-9A8A-32C2E307213B}.Debug|x64.Build.0 = Debug|x64
-		{1BAEE353-C460-4511-9A8A-32C2E307213B}.Debug|x86.ActiveCfg = Debug|Win32
-		{1BAEE353-C460-4511-9A8A-32C2E307213B}.Debug|x86.Build.0 = Debug|Win32
-		{1BAEE353-C460-4511-9A8A-32C2E307213B}.Release|x64.ActiveCfg = Release|x64
-		{1BAEE353-C460-4511-9A8A-32C2E307213B}.Release|x64.Build.0 = Release|x64
-		{1BAEE353-C460-4511-9A8A-32C2E307213B}.Release|x86.ActiveCfg = Release|Win32
-		{1BAEE353-C460-4511-9A8A-32C2E307213B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
