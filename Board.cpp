@@ -48,7 +48,7 @@ void Board::printBitboard(uint64_t bitboard) {
 
 void Board::print() {
     std::cout << "----------------\n";
-    printBitboard(occupied);
+    printBitboard(getOccupiedBitBoard());
 }
 
 bool Board::getBlackCastle() {
@@ -107,6 +107,7 @@ void Board::make_move(int from, int to) {
     uint64_t from_mask = 1ULL << from;
     uint64_t delete_mask = ~from_mask;
     uint64_t to_mask = 1ULL << to;
+    uint64_t occupied = getOccupiedBitBoard();
     if (validateMove(from_mask, to_mask)) {
         occupied = occupied & delete_mask; // set to 0 the bit the piece was in
         occupied = occupied | to_mask;     // set to 1 the bit the piece is goin to
@@ -115,6 +116,7 @@ void Board::make_move(int from, int to) {
 
 bool Board::validateMove(uint64_t from, uint64_t to) {
     bool valid = false;
+    uint64_t occupied = getOccupiedBitBoard();
     if ((from == (from & occupied)) && (occupied != (to | occupied))) {
         valid = true;
     }
