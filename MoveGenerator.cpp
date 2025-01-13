@@ -2,7 +2,8 @@
 
 std::vector<Move> MoveGenerator::generateMoves(const Board& board, int color) {
     std::vector<Move> moves;
-    generatePawnMoves(board, moves, color);
+    //generatePawnMoves(board, moves, color);
+    generateBishopMoves(board, moves, color);
     return moves;
 }
 
@@ -94,25 +95,29 @@ void MoveGenerator::generateBlackPawnMoves(const Board& board, std::vector<Move>
 
 void MoveGenerator::generateBishopMoves(const Board& board, std::vector<Move>& moves, int color) {
     uint64_t bishops;
-    uint64_t opposite;
-    uint64_t occupied = board.getOccupiedBitBoard();
 
     if (color == WHITE) {
         bishops = board.getBitboardFromType(Board::W_BISHOP);
-        opposite = board.getBlackBitBoard();
     } else if (color == BLACK) {
         bishops = board.getBitboardFromType(Board::B_BISHOP);
-        opposite = board.getWhiteBitBoard();
     }
 
     for (int from = 0; from < 64; from++) {
         uint64_t from_mask = 1ULL << from;
         if (from_mask & bishops) {
             for (int to = from + 9; to < 64; to += 9) {
-                uint64_t to_mask = to;
-                if ((to_mask | occupied) | ~opposite) {
-
+                if ((to & Board::top) || (to & Board::right)) {
+                    break;
                 }
+                Move m{ from, to, -1 };
+                moves.push_back(m);
+            }
+            for (int to = from - 9; to >= 0; from-9) {
+                if ((to & Board::bottom) || (to & Board::left)) {
+                    break;
+                }
+                Move m{from, to, -1};
+                moves.push_back(m);
             }
         }
     }
