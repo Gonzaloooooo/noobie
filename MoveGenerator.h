@@ -20,11 +20,12 @@ public:
 public:
     std::vector<Move> generateMoves(const Board& board, int color);
 private:
+    static bool isSameDiagonal(int from, int to);
     static void generatePawnMoves(const Board& board, std::vector<Move>& moves, int color);
     static void generateWhitePawnsMoves(const Board& board, std::vector<Move>& moves);
     static void generateBlackPawnMoves(const Board& board, std::vector<Move>& moves);
-
     static void generateBishopMoves(const Board& board, std::vector<Move>& moves, int color);
+
     static void generateKnightMoves(const Board& board, std::vector<Move>& moves, int color);
     static void generateTowerMoves(const Board& board, std::vector<Move>& moves, int color);
     static void generateQueenMoves(const Board& board, std::vector<Move>& moves, int color);

@@ -7,6 +7,16 @@ std::vector<Move> MoveGenerator::generateMoves(const Board& board, int color) {
     return moves;
 }
 
+bool MoveGenerator::isSameDiagonal(int from, int to) {
+    int from_rank = from / 8;
+    int from_col = from % 8;
+
+    int to_rank = to / 8;
+    int to_col = to % 8;
+
+    return std::abs(from_rank - to_rank) == std::abs(from_col - to_col);
+}
+
 void MoveGenerator::generatePawnMoves(const Board& board, std::vector<Move>& moves, int color) {
     if (color == WHITE) {
         generateWhitePawnsMoves(board, moves);
@@ -106,17 +116,31 @@ void MoveGenerator::generateBishopMoves(const Board& board, std::vector<Move>& m
         uint64_t from_mask = 1ULL << from;
         if (from_mask & bishops) {
             for (int to = from + 9; to < 64; to += 9) {
-                if ((to & Board::top) || (to & Board::right)) {
+                if (!MoveGenerator::isSameDiagonal(from, to)) {
                     break;
                 }
                 Move m{ from, to, -1 };
                 moves.push_back(m);
             }
-            for (int to = from - 9; to >= 0; from-9) {
-                if ((to & Board::bottom) || (to & Board::left)) {
+            for (int to = from - 9; to >= 0; to -= 9) {
+                if (!MoveGenerator::isSameDiagonal(from, to)) {
                     break;
                 }
-                Move m{from, to, -1};
+                Move m{ from, to, -1 };
+                moves.push_back(m);
+            }
+            for (int to = from + 7; to < 64; to += 7) {
+                if (!MoveGenerator::isSameDiagonal(from, to)) {
+                    break;
+                }
+                Move m{ from, to, -1 };
+                moves.push_back(m);
+            }
+            for (int to = from - 7; to >= 0; to -= 7) {
+                if (!MoveGenerator::isSameDiagonal(from, to)) {
+                    break;
+                }
+                Move m{ from, to, -1 };
                 moves.push_back(m);
             }
         }
