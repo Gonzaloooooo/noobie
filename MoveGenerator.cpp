@@ -1,13 +1,16 @@
 #include "MoveGenerator.h"
 
-std::vector<Move> MoveGenerator::generateMoves(const Board& board, int color) {
+std::vector<Move> MoveGenerator::generateMoves(const Board& board, int color) 
+{
     std::vector<Move> moves;
     generatePawnMoves(board, moves, color);
     generateBishopMoves(board, moves, color);
+    generateKnightMoves(board, moves, color);
     return moves;
 }
 
-bool MoveGenerator::isSameDiagonal(int from, int to) {
+bool MoveGenerator::isSameDiagonal(int from, int to) 
+{
     int from_rank = from / 8;
     int from_col = from % 8;
 
@@ -17,7 +20,28 @@ bool MoveGenerator::isSameDiagonal(int from, int to) {
     return std::abs(from_rank - to_rank) == std::abs(from_col - to_col);
 }
 
-void MoveGenerator::generatePawnMoves(const Board& board, std::vector<Move>& moves, int color) {
+bool MoveGenerator::isKnigthMove(int from, int to) 
+{
+    bool isKnightMove = false;
+    if (!(to > 63 || to < 0)) {
+        int from_rank = from / 8;
+        int from_col = from % 8;
+
+        int to_rank = to / 8;
+        int to_col = to % 8;
+
+        int rank_diff = std::abs(from_rank - to_rank);
+        int col_diff = std::abs(from_col - to_col);
+
+        if ((rank_diff == 1 && col_diff == 2) || rank_diff == 2 && col_diff == 1) {
+            isKnightMove = true;
+        }
+    }
+    return isKnightMove;
+}
+
+void MoveGenerator::generatePawnMoves(const Board& board, std::vector<Move>& moves, int color) 
+{
     if (color == WHITE) {
         generateWhitePawnsMoves(board, moves);
     } else {
@@ -25,7 +49,8 @@ void MoveGenerator::generatePawnMoves(const Board& board, std::vector<Move>& mov
     }
 }
 
-void MoveGenerator::generateWhitePawnsMoves(const Board& board, std::vector<Move>& moves) {
+void MoveGenerator::generateWhitePawnsMoves(const Board& board, std::vector<Move>& moves) 
+{
     uint64_t w_pawns = board.getBitboardFromType(board.W_PAWN);
 
     for (int from = 0; from < 64; from++) {
@@ -53,7 +78,8 @@ void MoveGenerator::generateWhitePawnsMoves(const Board& board, std::vector<Move
     }
 }
 
-void MoveGenerator::generateBlackPawnMoves(const Board& board, std::vector<Move>& moves){
+void MoveGenerator::generateBlackPawnMoves(const Board& board, std::vector<Move>& moves)
+{
     uint64_t b_pawns = board.getBitboardFromType(board.B_PAWN);
 
     for (int from = 0; from < 64; from++) {
@@ -83,7 +109,8 @@ void MoveGenerator::generateBlackPawnMoves(const Board& board, std::vector<Move>
     }
 }
 
-void MoveGenerator::generateBishopMoves(const Board& board, std::vector<Move>& moves, int color) {
+void MoveGenerator::generateBishopMoves(const Board& board, std::vector<Move>& moves, int color) 
+{
     uint64_t bishops;
 
     if (color == WHITE) {
@@ -123,6 +150,34 @@ void MoveGenerator::generateBishopMoves(const Board& board, std::vector<Move>& m
                 Move m{ from, to, -1 };
                 moves.push_back(m);
             }
+        }
+    }
+}
+
+void MoveGenerator::generateKnightMoves(const Board& board, std::vector<Move>& moves, int color) 
+{
+    uint64_t knight;
+    if (color == WHITE) {
+        knight = board.getBitboardFromType(Board::W_KNIGHT);
+    }
+    else if (color == BLACK) {
+        knight = board.getBitboardFromType(Board::B_KNIGHT);
+    }
+
+    for (int from = 0; from < 64; from++) {
+        uint64_t from_mask= 1ULL << from;
+        if (from_mask & knight) {
+            int from_rank = from / 8;
+            int from_col = from % 8;
+
+            for (int move : {6, 10, 15, 17, -6, -10, -15, -17}) {
+                int to = from + move;
+                if (isKnigthMove(from, to)) {
+                    Move m{ from, to, -1 };
+                    moves.push_back(m);
+                }
+            }
+
         }
     }
 }

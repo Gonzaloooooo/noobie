@@ -36,6 +36,10 @@ public:
     static const short B_QUEEN = 10;
     static const short B_KING = 11;
 
+    // Constante para indicar el color de las piezas
+    static const short WHITE = 0;
+    static const short BLACK = 1;
+
     //Límites del tablero
     static const uint64_t left = 9259542123273814144ULL;
     static const uint64_t right = 72340172838076673ULL;
