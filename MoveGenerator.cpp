@@ -181,3 +181,52 @@ void MoveGenerator::generateKnightMoves(const Board& board, std::vector<Move>& m
         }
     }
 }
+
+void MoveGenerator::generateTowerMoves(const Board& board, std::vector<Move>& moves, int color) 
+{
+    uint64_t tower;
+    if (color == WHITE) {
+        tower = board.getBitboardFromType(Board::W_TOWER);
+    } else if(color == BLACK) {
+        tower = board.getBitboardFromType(Board::B_TOWER);
+    }
+
+    for (int from = 0; from < 64; from++) {
+        uint64_t from_mask = 1ULL << from;
+        if (from_mask & tower) {
+            // Vertical upward moves
+            for (int to = from + 8; to < 64; to+=8) {
+                Move m{from, to, -1};
+                moves.push_back(m);
+            }
+            // Vertical downward moves
+            for (int to = from - 8; to >= 0; to-=8) {
+                Move m{ from, to, -1 };
+                moves.push_back(m);
+            }
+            // Horizontal to the right moves
+            for (int to = from + 1; to < 64; to++) {
+                int from_rank = from / 8;
+                int to_rank = to / 8;
+                if (from_rank == to_rank) {
+                    Move m{from, to, -1};
+                    moves.push_back(m);
+                } else {
+                    break;
+                }
+            }
+            // Horizontal to the left moves
+            for (int to = from - 1; to >= 0; to--) {
+                int from_rank = from / 8;
+                int to_rank = to / 8;
+                if (from_rank == to_rank) {
+                    Move m{ from, to, -1 };
+                    moves.push_back(m);
+                }
+                else {
+                    break;
+                }
+            }
+        }
+    }
+}
