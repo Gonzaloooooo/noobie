@@ -7,6 +7,7 @@ std::vector<Move> MoveGenerator::generateMoves(const Board& board, int color)
     generateBishopMoves(board, moves, color);
     generateKnightMoves(board, moves, color);
     generateTowerMoves(board, moves, color);
+    generateKingMoves(board, moves, color);
     return moves;
 }
 
@@ -183,6 +184,25 @@ void MoveGenerator::generateKnightMoves(const Board& board, std::vector<Move>& m
     }
 }
 
+void MoveGenerator::generateQueenMoves(const Board& board, std::vector<Move>& moves, int color) 
+{
+    uint64_t queen;
+    Board b;
+    MoveGenerator moveGen;
+
+    if (color == WHITE) {
+        queen = board.getBitboardFromType(Board::W_QUEEN);
+        b = new Board(0, queen, 0, queen, queen, 0, 0, 0, 0, 0, 0, 0);
+    }
+    else if (color == BLACK) {
+        queen = board.getBitboardFromType(Board::B_QUEEN);
+        b = new Board(0, 0, 0, 0, 0, 0, 0, queen, 0, queen, queen, 0);
+    }
+    std::vector<Move> m = moveGen.generateMoves(b, color);
+
+    moves.insert(moves.end(), m.begin(), m.end());
+}
+
 void MoveGenerator::generateTowerMoves(const Board& board, std::vector<Move>& moves, int color) 
 {
     uint64_t tower;
@@ -227,6 +247,65 @@ void MoveGenerator::generateTowerMoves(const Board& board, std::vector<Move>& mo
                 else {
                     break;
                 }
+            }
+        }
+    }
+}
+
+void MoveGenerator::generateKingMoves(const Board& board, std::vector<Move>& moves, int color)
+{
+    uint64_t king;
+    if (color == WHITE) {
+        king = board.getBitboardFromType(Board::W_KING);
+    }
+    else if (color == BLACK) {
+        king = board.getBitboardFromType(Board::B_KING);
+    }
+
+    for (int from = 0; from < 64; from++) {
+        uint64_t from_mask = 1ULL << from;
+        if (from_mask & king) {
+            int from_rank = from / 8;
+            int from_col = from % 8;
+            // Upwards
+            if (from_rank <= 7) {
+                Move m{ from, from + 8, -1 };
+                moves.push_back(m);
+            }
+            // Downwards
+            if (from_rank >= 1) {
+                Move m{ from, from - 8, -1 };
+                moves.push_back(m);
+            }
+            // Right
+            if (from_col <= 7) {
+                Move m{ from, from + 1, -1 };
+                moves.push_back(m);
+            }
+            // Left
+            if (from_col >= 1) {
+                Move m{ from, from - 1, -1 };
+                moves.push_back(m);
+            }
+            // Right - Up
+            if ( from_rank <= 7 && from_col <= 7) {
+                Move m{ from, from + 7, -1 };
+                moves.push_back(m);
+            }
+            // Left - Up
+            if (from_rank <= 7 && from_col >= 1) {
+                Move m{ from, from + 9, -1 };
+                moves.push_back(m);
+            }
+            // Right - Down
+            if (from_rank >= 1 && from_col <= 7) {
+                Move m{ from, from - 7, -1 };
+                moves.push_back(m);
+            }
+            // Left - Down
+            if (from_rank >= 1 && from_col >= 1) {
+                Move m{ from, from-9, -1};
+                moves.push_back(m);
             }
         }
     }
