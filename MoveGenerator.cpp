@@ -6,6 +6,7 @@ std::vector<Move> MoveGenerator::generateMoves(const Board& board, int color)
     generatePawnMoves(board, moves, color);
     generateBishopMoves(board, moves, color);
     generateKnightMoves(board, moves, color);
+    generateTowerMoves(board, moves, color);
     return moves;
 }
 
@@ -194,17 +195,17 @@ void MoveGenerator::generateTowerMoves(const Board& board, std::vector<Move>& mo
     for (int from = 0; from < 64; from++) {
         uint64_t from_mask = 1ULL << from;
         if (from_mask & tower) {
-            // Vertical upward moves
+            // Upward moves
             for (int to = from + 8; to < 64; to+=8) {
                 Move m{from, to, -1};
                 moves.push_back(m);
             }
-            // Vertical downward moves
+            // Downward moves
             for (int to = from - 8; to >= 0; to-=8) {
                 Move m{ from, to, -1 };
                 moves.push_back(m);
             }
-            // Horizontal to the right moves
+            // Right moves
             for (int to = from + 1; to < 64; to++) {
                 int from_rank = from / 8;
                 int to_rank = to / 8;
@@ -215,7 +216,7 @@ void MoveGenerator::generateTowerMoves(const Board& board, std::vector<Move>& mo
                     break;
                 }
             }
-            // Horizontal to the left moves
+            // Left moves
             for (int to = from - 1; to >= 0; to--) {
                 int from_rank = from / 8;
                 int to_rank = to / 8;

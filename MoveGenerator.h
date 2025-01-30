@@ -9,6 +9,9 @@ struct Move {
     int from;
     int to;
     char promotion;
+    bool operator==(const Move& other) const {
+        return from == other.from && to == other.to && promotion == other.promotion;
+    }
 };
 
 class MoveGenerator {
