@@ -25,6 +25,8 @@ public:
 private:
     static bool isSameDiagonal(int from, int to);
     static bool isKnigthMove(int from, int to);
+    static bool isSameRank(int from, int to);
+    static bool isSameColumn(int from, int to);
     static void generatePawnMoves(const Board& board, std::vector<Move>& moves, int color);
     static void generateWhitePawnsMoves(const Board& board, std::vector<Move>& moves);
     static void generateBlackPawnMoves(const Board& board, std::vector<Move>& moves);

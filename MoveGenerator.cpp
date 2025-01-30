@@ -42,6 +42,20 @@ bool MoveGenerator::isKnigthMove(int from, int to)
     return isKnightMove;
 }
 
+bool MoveGenerator::isSameRank(int from, int to)
+{
+    int from_rank = from / 8;
+    int to_rank = to / 8;
+    return (from_rank == to_rank);
+}
+
+bool MoveGenerator::isSameColumn(int from, int to)
+{
+    int from_col = from % 8;
+    int to_col = to % 8;
+    return (from_col == to_col);
+}
+
 void MoveGenerator::generatePawnMoves(const Board& board, std::vector<Move>& moves, int color) 
 {
     if (color == WHITE) {
@@ -184,25 +198,6 @@ void MoveGenerator::generateKnightMoves(const Board& board, std::vector<Move>& m
     }
 }
 
-void MoveGenerator::generateQueenMoves(const Board& board, std::vector<Move>& moves, int color) 
-{
-    uint64_t queen;
-    Board b;
-    MoveGenerator moveGen;
-
-    if (color == WHITE) {
-        queen = board.getBitboardFromType(Board::W_QUEEN);
-        b = new Board(0, queen, 0, queen, queen, 0, 0, 0, 0, 0, 0, 0);
-    }
-    else if (color == BLACK) {
-        queen = board.getBitboardFromType(Board::B_QUEEN);
-        b = new Board(0, 0, 0, 0, 0, 0, 0, queen, 0, queen, queen, 0);
-    }
-    std::vector<Move> m = moveGen.generateMoves(b, color);
-
-    moves.insert(moves.end(), m.begin(), m.end());
-}
-
 void MoveGenerator::generateTowerMoves(const Board& board, std::vector<Move>& moves, int color) 
 {
     uint64_t tower;
@@ -251,6 +246,27 @@ void MoveGenerator::generateTowerMoves(const Board& board, std::vector<Move>& mo
         }
     }
 }
+/*
+void MoveGenerator::generateQueenMoves(const Board& board, std::vector<Move>& moves, int color)
+{
+    uint64_t queen;
+    Board b;
+    MoveGenerator moveGen;
+
+    if (color == WHITE) {
+        queen = board.getBitboardFromType(Board::W_QUEEN);
+        b = new Board(0, queen, 0, queen, queen, 0, 0, 0, 0, 0, 0, 0);
+    }
+    else if (color == BLACK) {
+        queen = board.getBitboardFromType(Board::B_QUEEN);
+        b = new Board(0, 0, 0, 0, 0, 0, 0, queen, 0, queen, queen, 0);
+    }
+    std::vector<Move> m = moveGen.generateMoves(b, color);
+
+    moves.insert(moves.end(), m.begin(), m.end());
+}
+*/
+
 
 void MoveGenerator::generateKingMoves(const Board& board, std::vector<Move>& moves, int color)
 {
@@ -267,44 +283,54 @@ void MoveGenerator::generateKingMoves(const Board& board, std::vector<Move>& mov
         if (from_mask & king) {
             int from_rank = from / 8;
             int from_col = from % 8;
+
             // Upwards
-            if (from_rank <= 7) {
-                Move m{ from, from + 8, -1 };
+            if (from_rank <= 6) {
+                int to = from + 8;
+
+                Move m{ from, to, -1 };
                 moves.push_back(m);
             }
             // Downwards
             if (from_rank >= 1) {
-                Move m{ from, from - 8, -1 };
+                int to = from - 8;
+                Move m{ from, to, -1 };
                 moves.push_back(m);
             }
             // Right
-            if (from_col <= 7) {
-                Move m{ from, from + 1, -1 };
+            if (from_col <= 6) {
+                int to = from + 1;
+                Move m{ from, to, -1 };
                 moves.push_back(m);
             }
             // Left
             if (from_col >= 1) {
-                Move m{ from, from - 1, -1 };
+                int to = from - 1;
+                Move m{ from, to, -1 };
                 moves.push_back(m);
             }
             // Right - Up
-            if ( from_rank <= 7 && from_col <= 7) {
-                Move m{ from, from + 7, -1 };
+            if ( from_rank <= 6 && from_col <= 7) {
+                int to = from + 9;
+                Move m{ from, to, -1 };
                 moves.push_back(m);
             }
             // Left - Up
-            if (from_rank <= 7 && from_col >= 1) {
-                Move m{ from, from + 9, -1 };
+            if (from_rank <= 6 && from_col >= 1) {
+                int to = from + 7;
+                Move m{ from, to, -1 };
                 moves.push_back(m);
             }
             // Right - Down
-            if (from_rank >= 1 && from_col <= 7) {
-                Move m{ from, from - 7, -1 };
+            if (from_rank >= 1 && from_col <= 6) {
+                int to = from - 7;
+                Move m{ from, to, -1 };
                 moves.push_back(m);
             }
             // Left - Down
-            if (from_rank >= 1 && from_col >= 1) {
-                Move m{ from, from-9, -1};
+            if (from_rank >= 1 && from_col >= 1 && isSameDiagonal(from, to)) {
+                int to = from - 9;
+                Move m{ from, to, -1};
                 moves.push_back(m);
             }
         }
