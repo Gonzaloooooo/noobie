@@ -246,27 +246,25 @@ void MoveGenerator::generateTowerMoves(const Board& board, std::vector<Move>& mo
         }
     }
 }
-/*
+
 void MoveGenerator::generateQueenMoves(const Board& board, std::vector<Move>& moves, int color)
 {
     uint64_t queen;
-    Board b;
     MoveGenerator moveGen;
 
     if (color == WHITE) {
         queen = board.getBitboardFromType(Board::W_QUEEN);
-        b = new Board(0, queen, 0, queen, queen, 0, 0, 0, 0, 0, 0, 0);
     }
     else if (color == BLACK) {
         queen = board.getBitboardFromType(Board::B_QUEEN);
-        b = new Board(0, 0, 0, 0, 0, 0, 0, queen, 0, queen, queen, 0);
     }
+    Board b(0, (color==WHITE)?queen:0, 0, (color==WHITE)?queen:0, (color==WHITE)?queen : 0, 0,
+            0, (color==BLACK)?queen:0, 0, (color==BLACK)?queen:0, (color==BLACK)?queen : 0, 0);
+
     std::vector<Move> m = moveGen.generateMoves(b, color);
 
     moves.insert(moves.end(), m.begin(), m.end());
 }
-*/
-
 
 void MoveGenerator::generateKingMoves(const Board& board, std::vector<Move>& moves, int color)
 {
