@@ -4,9 +4,10 @@ std::vector<Move> MoveGenerator::generateMoves(const Board& board, int color)
 {
     std::vector<Move> moves;
     generatePawnMoves(board, moves, color);
-    generateBishopMoves(board, moves, color);
+    generateBishopMoves(board, moves, color, false);
     generateKnightMoves(board, moves, color);
-    generateTowerMoves(board, moves, color);
+    generateTowerMoves(board, moves, color, false);
+    generateQueenMoves(board, moves, color);
     generateKingMoves(board, moves, color);
     return moves;
 }
@@ -125,15 +126,28 @@ void MoveGenerator::generateBlackPawnMoves(const Board& board, std::vector<Move>
     }
 }
 
-void MoveGenerator::generateBishopMoves(const Board& board, std::vector<Move>& moves, int color) 
+void MoveGenerator::generateBishopMoves(const Board& board, std::vector<Move>& moves, int color, bool forQueen) 
 {
     uint64_t bishops;
 
-    if (color == WHITE) {
-        bishops = board.getBitboardFromType(Board::W_BISHOP);
-    } else if (color == BLACK) {
-        bishops = board.getBitboardFromType(Board::B_BISHOP);
+    if (forQueen) {
+        if (color == WHITE) {
+            bishops = board.getBitboardFromType(Board::W_QUEEN);
+        }
+        else if (color == BLACK) {
+            bishops = board.getBitboardFromType(Board::B_QUEEN);
+        }
+    } 
+    else 
+    {
+        if (color == WHITE) {
+            bishops = board.getBitboardFromType(Board::W_BISHOP);
+        }
+        else if (color == BLACK) {
+            bishops = board.getBitboardFromType(Board::B_BISHOP);
+        }
     }
+    
 
     for (int from = 0; from < 64; from++) {
         uint64_t from_mask = 1ULL << from;
@@ -198,14 +212,26 @@ void MoveGenerator::generateKnightMoves(const Board& board, std::vector<Move>& m
     }
 }
 
-void MoveGenerator::generateTowerMoves(const Board& board, std::vector<Move>& moves, int color) 
+void MoveGenerator::generateTowerMoves(const Board& board, std::vector<Move>& moves, int color, bool forQueen) 
 {
     uint64_t tower;
-    if (color == WHITE) {
-        tower = board.getBitboardFromType(Board::W_TOWER);
-    } else if(color == BLACK) {
-        tower = board.getBitboardFromType(Board::B_TOWER);
+
+    if (forQueen) {
+        if (color == WHITE) {
+            tower = board.getBitboardFromType(Board::W_QUEEN);
+        }
+        else if (color == BLACK) {
+            tower = board.getBitboardFromType(Board::B_QUEEN);
+        }
+    } else {
+        if (color == WHITE) {
+            tower = board.getBitboardFromType(Board::W_TOWER);
+        }
+        else if (color == BLACK) {
+            tower = board.getBitboardFromType(Board::B_TOWER);
+        }
     }
+    
 
     for (int from = 0; from < 64; from++) {
         uint64_t from_mask = 1ULL << from;
@@ -249,21 +275,8 @@ void MoveGenerator::generateTowerMoves(const Board& board, std::vector<Move>& mo
 
 void MoveGenerator::generateQueenMoves(const Board& board, std::vector<Move>& moves, int color)
 {
-    uint64_t queen;
-    MoveGenerator moveGen;
-
-    if (color == WHITE) {
-        queen = board.getBitboardFromType(Board::W_QUEEN);
-    }
-    else if (color == BLACK) {
-        queen = board.getBitboardFromType(Board::B_QUEEN);
-    }
-    Board b(0, (color==WHITE)?queen:0, 0, (color==WHITE)?queen:0, (color==WHITE)?queen : 0, 0,
-            0, (color==BLACK)?queen:0, 0, (color==BLACK)?queen:0, (color==BLACK)?queen : 0, 0);
-
-    std::vector<Move> m = moveGen.generateMoves(b, color);
-
-    moves.insert(moves.end(), m.begin(), m.end());
+    generateBishopMoves(board, moves, color, true);
+    generateTowerMoves(board, moves, color, true);
 }
 
 void MoveGenerator::generateKingMoves(const Board& board, std::vector<Move>& moves, int color)
