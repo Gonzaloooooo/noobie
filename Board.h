@@ -1,7 +1,6 @@
 #pragma once
 #include <stdint.h> // Para uint64_t
 #include <iostream> // Para std::cout
-#include "MoveGenerator.h"
 
 class Board
 {
@@ -22,7 +21,7 @@ private:
     bool whiteToMove = true;
 
     // Último movimiento
-    Move lastMove;
+    //Move lastMove;
 
 public:
     // Constantes para indexar las piezas en el array 'pieces'

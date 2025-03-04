@@ -23,7 +23,7 @@ public:
     static const int BLACK = 1;
 public:
     std::vector<Move> generateMoves(const Board& board, int color);
-    void filterMoves(const Board& board, std:vector<Move>& moves)
+    void filterMoves(const Board& board, std::vector<Move>& moves);
 private:
     static bool isSameDiagonal(int from, int to);
     static bool isKnigthMove(int from, int to);
