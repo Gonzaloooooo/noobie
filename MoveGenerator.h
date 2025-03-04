@@ -8,6 +8,7 @@ class Board;
 struct Move {
     int from;
     int to;
+    int piece;
     char promotion;
     bool operator==(const Move& other) const {
         return from == other.from && to == other.to && promotion == other.promotion;
@@ -35,5 +36,10 @@ private:
     static void generateTowerMoves(const Board& board, std::vector<Move>& moves, int color, bool forQueen);
     static void generateQueenMoves(const Board& board, std::vector<Move>& moves, int color);
     static void generateKingMoves(const Board& board, std::vector<Move>& moves, int color);
+    // Métodos para la validación de movimientos
+    static bool isKingInCheck(const Board& board, int color);
+    static bool isPathClear(int from, int to);
+    static bool isDiagonalClear(int from, int to);
+    static bool isLegal(Move move);
 };
 
