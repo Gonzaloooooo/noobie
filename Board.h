@@ -21,6 +21,9 @@ private:
     // A quién le toca mover
     bool whiteToMove = true;
 
+    // Último movimiento
+    Move lastMove;
+
 public:
     // Constantes para indexar las piezas en el array 'pieces'
     static const short W_PAWN = 0;
