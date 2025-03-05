@@ -5,16 +5,6 @@
 
 class Board;
 
-struct Move {
-    int from;
-    int to;
-    int piece;
-    char promotion;
-    bool operator==(const Move& other) const {
-        return from == other.from && to == other.to && promotion == other.promotion;
-    }
-};
-
 class MoveGenerator {
 public:
     static const uint64_t w_pawns_starting_pos = 255ULL << 8;

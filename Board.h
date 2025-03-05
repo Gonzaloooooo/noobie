@@ -2,6 +2,16 @@
 #include <stdint.h> // Para uint64_t
 #include <iostream> // Para std::cout
 
+struct Move {
+    int from;
+    int to;
+    int piece;
+    char promotion;
+    bool operator==(const Move& other) const {
+        return from == other.from && to == other.to && promotion == other.promotion;
+    }
+};
+
 class Board
 {
 private:
