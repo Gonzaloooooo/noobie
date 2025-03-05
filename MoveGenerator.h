@@ -3,8 +3,6 @@
 #include <vector>
 #include "Board.h"
 
-class Board;
-
 class MoveGenerator {
 public:
     static const uint64_t w_pawns_starting_pos = 255ULL << 8;
