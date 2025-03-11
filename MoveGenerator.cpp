@@ -76,19 +76,19 @@ void MoveGenerator::generateWhitePawnsMoves(const Board& board, std::vector<Move
             int from_rank = from / 8;
             int from_col = from % 8;
             
-            Move fwd_1{ from, from + 8, -1 };
+            Move fwd_1{ from, from + 8, PAWN, NULL_TYPE };
             moves.push_back(fwd_1);
 
             if (from_rank == 1) {
-                Move fwd_2{ from, from + 16, -1 };
+                Move fwd_2{ from, from + 16, PAWN, NULL_TYPE };
                 moves.push_back(fwd_2);
             }
             if (from_col < 7) {
-                Move right{ from, from + 9, -1 };
+                Move right{ from, from + 9, PAWN, NULL_TYPE };
                 moves.push_back(right);
             }
             if (from_col > 0) {
-                Move left{ from, from + 7, -1 };
+                Move left{ from, from + 7, PAWN, NULL_TYPE };
                 moves.push_back(left);
             }
         }
@@ -105,21 +105,21 @@ void MoveGenerator::generateBlackPawnMoves(const Board& board, std::vector<Move>
             int from_rank = from / 8;
             int from_col = from % 8;
 
-            Move fwd_1{ from, from - 8, -1 };
+            Move fwd_1{ from, from - 8, PAWN, NULL_TYPE };
             moves.push_back(fwd_1);
 
             if (from_rank == 6) {
-                Move fwd_2{ from, from - 16, -1 };
+                Move fwd_2{ from, from - 16, PAWN, NULL_TYPE };
                 moves.push_back(fwd_2);
             }
 
             if (from_col < 7) {
-                Move right{ from, from - 7, -1 };
+                Move right{ from, from - 7, PAWN, NULL_TYPE };
                 moves.push_back(right);
             }
 
             if (from_col > 0) {
-                Move left{ from, from - 9, -1 };
+                Move left{ from, from - 9, PAWN, NULL_TYPE };
                 moves.push_back(left);
             }
         }
