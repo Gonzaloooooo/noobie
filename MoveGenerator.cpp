@@ -203,7 +203,7 @@ void MoveGenerator::generateKnightMoves(const Board& board, std::vector<Move>& m
             for (int move : {6, 10, 15, 17, -6, -10, -15, -17}) {
                 int to = from + move;
                 if (isKnigthMove(from, to)) {
-                    Move m{ from, to, -1 };
+                    Move m{ from, to, KNIGHT, NULL_TYPE };
                     moves.push_back(m);
                 }
             }
