@@ -9,7 +9,7 @@ public:
     static const uint64_t b_pawns_starting_pos = 255ULL << 48;
     static const int WHITE = 0;
     static const int BLACK = 1;
-    static const int NULL = -1;
+    static const int NULL_TYPE = -1;
     static const int PAWN = 0;
     static const int BISHOP = 1;
     static const int KNIGHT = 2;
