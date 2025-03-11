@@ -141,3 +141,25 @@ bool Board::validateMove(uint64_t from, uint64_t to) {
     }
     return valid;
 }
+
+int getBoardIndexFromMoveGenerator(int indexFromMoveGenerator) {
+    int indexFromBoard;
+    if (indexFromMoveGenerator == 0) {
+        indexFromBoard = (whiteToMove ? W_PAWN : B_PAWN);
+    }
+    else if (indexFromMoveGenerator == 1) {
+        indexFromBoard = (whiteToMove ? W_BISHOP : B_BISHOP);
+    }
+    else if (indexFromMoveGenerator == 2) {
+        indexFromBoard = (whiteToMove ? W_KNIGHT : B_KNIGHT);
+    }
+    else if (indexFromMoveGenerator == 3) {
+        indexFromBoard = (whiteToMove ? W_TOWER : B_TOWER);
+    }
+    else if (indexFromMoveGenerator == 4) {
+        indexFromBoard = (whiteToMove ? W_QUEEN : B_QUEEN);
+    }
+    else if (indexFromMoveGenerator == 5) {
+        indexFromBoard = (whiteToMove ? W_KING : B_KING);
+    }
+}

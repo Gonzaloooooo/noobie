@@ -77,6 +77,8 @@ public:
 
     int getMoves(); // Gets the number of moves that have happened in the match
 
+    int getBoardIndexFromMoveGenerator() // Devuelve el índice con el que indexar la posición de una pieza a partir del índice de MoveGenerator
+
     /*
     * @brief
     * Recibe un entero de 64 bits y extrae un bit concreto que es 
