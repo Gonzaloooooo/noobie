@@ -156,28 +156,28 @@ void MoveGenerator::generateBishopMoves(const Board& board, std::vector<Move>& m
                 if (!MoveGenerator::isSameDiagonal(from, to)) {
                     break;
                 }
-                Move m{ from, to, -1 };
+                Move m{ from, to, (forQueen ? QUEEN : BISHOP), NULL_TYPE };
                 moves.push_back(m);
             }
             for (int to = from - 9; to >= 0; to -= 9) {
                 if (!MoveGenerator::isSameDiagonal(from, to)) {
                     break;
                 }
-                Move m{ from, to, -1 };
+                Move m{ from, to, (forQueen ? QUEEN : BISHOP), NULL_TYPE };
                 moves.push_back(m);
             }
             for (int to = from + 7; to < 64; to += 7) {
                 if (!MoveGenerator::isSameDiagonal(from, to)) {
                     break;
                 }
-                Move m{ from, to, -1 };
+                Move m{ from, to, (forQueen ? QUEEN : BISHOP), NULL_TYPE };
                 moves.push_back(m);
             }
             for (int to = from - 7; to >= 0; to -= 7) {
                 if (!MoveGenerator::isSameDiagonal(from, to)) {
                     break;
                 }
-                Move m{ from, to, -1 };
+                Move m{ from, to, (forQueen ? QUEEN : BISHOP), NULL_TYPE };
                 moves.push_back(m);
             }
         }
