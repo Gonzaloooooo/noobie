@@ -298,33 +298,32 @@ void MoveGenerator::generateKingMoves(const Board& board, std::vector<Move>& mov
             // Upwards
             if (from_rank <= 6) {
                 int to = from + 8;
-
-                Move m{ from, to, -1 };
+                Move m{ from, to, KING, NULL_TYPE };
                 moves.push_back(m);
             }
             // Downwards
             if (from_rank >= 1) {
                 int to = from - 8;
-                Move m{ from, to, -1 };
+                Move m{ from, to, KING, NULL_TYPE };
                 moves.push_back(m);
             }
             // Right
             if (from_col <= 6) {
                 int to = from + 1;
-                Move m{ from, to, -1 };
+                Move m{ from, to, KING, NULL_TYPE };
                 moves.push_back(m);
             }
             // Left
             if (from_col >= 1) {
                 int to = from - 1;
-                Move m{ from, to, -1 };
+                Move m{ from, to, KING, NULL_TYPE };
                 moves.push_back(m);
             }
             // Right - Up
             if ( from_rank <= 6 && from_col <= 7) {
                 int to = from + 9;
                 if (isSameDiagonal(from, to)) {
-                    Move m{ from, to, -1 };
+                    Move m{ from, to, KING, NULL_TYPE };
                     moves.push_back(m);
                 }
             }
@@ -332,7 +331,7 @@ void MoveGenerator::generateKingMoves(const Board& board, std::vector<Move>& mov
             if (from_rank <= 6 && from_col >= 1) {
                 int to = from + 7;
                 if (isSameDiagonal(from, to)) {
-                    Move m{ from, to, -1 };
+                    Move m{ from, to, KING, NULL_TYPE };
                     moves.push_back(m);
                 }
             }
@@ -340,7 +339,7 @@ void MoveGenerator::generateKingMoves(const Board& board, std::vector<Move>& mov
             if (from_rank >= 1 && from_col <= 6) {
                 int to = from - 7;
                 if (isSameDiagonal(from, to)) {
-                    Move m{ from, to, -1 };
+                    Move m{ from, to, KING, NULL_TYPE };
                     moves.push_back(m);
                 }
             }
@@ -348,7 +347,7 @@ void MoveGenerator::generateKingMoves(const Board& board, std::vector<Move>& mov
             if (from_rank >= 1 && from_col >= 1) {
                 int to = from - 9;
                 if (isSameDiagonal(from, to)) {
-                    Move m{ from, to, -1 };
+                    Move m{ from, to, KING, NULL_TYPE };
                     moves.push_back(m);
                 }
             }
