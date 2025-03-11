@@ -9,6 +9,12 @@ public:
     static const uint64_t b_pawns_starting_pos = 255ULL << 48;
     static const int WHITE = 0;
     static const int BLACK = 1;
+    static const int PAWN = 0;
+    static const int BISHOP = 1;
+    static const int KNIGHT = 2;
+    static const int TOWER = 2;
+    static const int QUEEN = 2;
+    static const int KING = 2;
 public:
     std::vector<Move> generateMoves(const Board& board, int color);
     void filterMoves(const Board& board, std::vector<Move>& moves);
