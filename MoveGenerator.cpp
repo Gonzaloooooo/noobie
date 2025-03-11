@@ -238,12 +238,12 @@ void MoveGenerator::generateTowerMoves(const Board& board, std::vector<Move>& mo
         if (from_mask & tower) {
             // Upward moves
             for (int to = from + 8; to < 64; to+=8) {
-                Move m{from, to, -1};
+                Move m{from, to, (forQueen ? QUEEN : TOWER), NULL_TYPE};
                 moves.push_back(m);
             }
             // Downward moves
             for (int to = from - 8; to >= 0; to-=8) {
-                Move m{ from, to, -1 };
+                Move m{ from, to, (forQueen ? QUEEN : TOWER), NULL_TYPE };
                 moves.push_back(m);
             }
             // Right moves
@@ -251,7 +251,7 @@ void MoveGenerator::generateTowerMoves(const Board& board, std::vector<Move>& mo
                 int from_rank = from / 8;
                 int to_rank = to / 8;
                 if (from_rank == to_rank) {
-                    Move m{from, to, -1};
+                    Move m{from, to, (forQueen ? QUEEN : TOWER), NULL_TYPE };
                     moves.push_back(m);
                 } else {
                     break;
@@ -262,7 +262,7 @@ void MoveGenerator::generateTowerMoves(const Board& board, std::vector<Move>& mo
                 int from_rank = from / 8;
                 int to_rank = to / 8;
                 if (from_rank == to_rank) {
-                    Move m{ from, to, -1 };
+                    Move m{ from, to, (forQueen ? QUEEN : TOWER), NULL_TYPE };
                     moves.push_back(m);
                 }
                 else {
