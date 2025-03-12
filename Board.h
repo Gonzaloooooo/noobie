@@ -132,7 +132,7 @@ public:
 
     int getBitFromBoard(int pieceIndex, int from);
     void setBitOfBoard(int pieceIndex, int to);
-    void clearBitFromBoard(int pieceIndex, int to);
+    void clearBitOfBoard(int pieceIndex, int to);
 
     // Gets the position of a type of piece using the color and pieces indexes defined in Board
     uint64_t getBitboardFromType(int pieceType) const;

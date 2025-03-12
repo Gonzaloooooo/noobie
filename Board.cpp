@@ -199,3 +199,14 @@ void Board::setBitOfBoard(int pieceIndex, int to) {
 
     pieces[pieceIndex] |= (1ULL << to);
 }
+
+void Board::clearBitOfBoard(int pieceIndex, int to) {
+    if (pieceIndex < 0 || pieceIndex >= 12) {
+        throw std::out_of_range("Índice de pieza fuera de rango");
+    }
+    if (to < 0 || to >= 64) {
+        throw std::out_of_range("Posición fuera de rango");
+    }
+
+    pieces[pieceIndex] &= ~(1ULL << to); 
+}
