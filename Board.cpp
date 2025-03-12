@@ -176,3 +176,26 @@ int Board::getBoardIndexFromMoveGenerator(int indexFromMoveGenerator) {
     }
     return indexFromBoard;
 }
+
+int Board::getBitFromBoard(int pieceIndex, int from) {
+    if (pieceIndex < 0 || pieceIndex >= 12) {
+        throw std::out_of_range("Índice de pieza fuera de rango");
+    }
+    if (from < 0 || from >= 64) {
+        throw std::out_of_range("Posición fuera de rango");
+    }
+
+    uint64_t position = pieces[pieceIndex];
+    return (position >> from) & 1;
+}
+
+void Board::setBitOfBoard(int pieceIndex, int to) {
+    if (pieceIndex < 0 || pieceIndex >= 12) {
+        throw std::out_of_range("Índice de pieza fuera de rango");
+    }
+    if (to < 0 || to >= 64) {
+        throw std::out_of_range("Posición fuera de rango");
+    }
+
+    pieces[pieceIndex] |= (1ULL << to);
+}
