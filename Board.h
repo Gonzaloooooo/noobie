@@ -31,7 +31,7 @@ private:
     bool whiteToMove = true;
 
     // Último movimiento
-    //Move lastMove;
+    Move lastMove;
 
 public:
     // Constantes para indexar las piezas en el array 'pieces'
@@ -74,10 +74,11 @@ public:
     bool getBlackCastle(); // Gets a boolean that indicates if castling is possible for black
     bool getWhiteCastle(); // Gets a boolean that indicates if castling is possible for white
     bool isWhiteToMove();  // Gets a boolean that indicates if white is making the next move
+    void setWhiteToMove(bool value);
 
     int getMoves(); // Gets the number of moves that have happened in the match
 
-    int getBoardIndexFromMoveGenerator() // Devuelve el índice con el que indexar la posición de una pieza a partir del índice de MoveGenerator
+    int getBoardIndexFromMoveGenerator(int indexFromMoveGenerator); // Devuelve el índice con el que indexar la posición de una pieza a partir del índice de MoveGenerator
 
     /*
     * @brief

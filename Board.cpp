@@ -82,6 +82,10 @@ bool Board::isWhiteToMove() {
     return whiteToMove;
 }
 
+void Board::setWhiteToMove(bool value) {
+    whiteToMove = value;
+}
+
 int Board::getMoves() {
     return moves;
 }
@@ -142,7 +146,7 @@ bool Board::validateMove(uint64_t from, uint64_t to) {
     return valid;
 }
 
-int getBoardIndexFromMoveGenerator(int indexFromMoveGenerator) {
+int Board::getBoardIndexFromMoveGenerator(int indexFromMoveGenerator) {
     int indexFromBoard;
     if (indexFromMoveGenerator == 0) {
         indexFromBoard = (whiteToMove ? W_PAWN : B_PAWN);
@@ -162,4 +166,8 @@ int getBoardIndexFromMoveGenerator(int indexFromMoveGenerator) {
     else if (indexFromMoveGenerator == 5) {
         indexFromBoard = (whiteToMove ? W_KING : B_KING);
     }
+    else {
+        indexFromBoard = -1;
+    }
+    return indexFromBoard;
 }
