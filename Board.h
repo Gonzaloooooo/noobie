@@ -130,7 +130,7 @@ public:
     */
     static uint64_t clearBit(uint64_t board, int to);
 
-    void getBit(int pieceIndez, int from);
+    void getBit(int pieceIndex, int from);
     void setBit(int pieceIndex, int to);
     void clearBit(int pieceIndex, int to);
 
