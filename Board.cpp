@@ -127,8 +127,8 @@ uint64_t Board::getOccupiedBitBoard() const{
 }
 
 void Board::makeMove(Move move) {
-    int pieceType = move.piece;
-    int promotion = move.promotion;
+    int pieceIndex = getBoardIndexFromMoveGenerator(move.piece);
+    int promotionIndex = getBoardIndexFromMoveGenerator(move.promotion);
 
     uint64_t from_mask = 1ULL << move.from;
     uint64_t delete_mask = ~from_mask;
@@ -136,10 +136,46 @@ void Board::makeMove(Move move) {
     uint64_t occupied = getOccupiedBitBoard();
 
     // Mover la pieza en su posición correspondiente
+    pieces[pieceIndex] |= to_mask;
+    pieces[pieceIndex] &= ~from_mask;
 
-    // Borrar las piezas que hayan sido capturadas
+    // Borrar la pieza que haya sido capturada
+    for (auto& piece : pieces) {
+        piece &= ~to_mask;
+    }
+
+    // Comprobar el enroque
+    if (pieceIndex == W_KING) {
+        whiteCastleLeft = whiteCastleRight = false;
+    }
+    else if (pieceIndex == B_KING) {
+        blackCastleLeft = blackCastleRight = false;
+    } 
+    else if (pieceIndex == W_TOWER && from == 0) {
+        whiteCastleLeft = false;
+    }
+    else if (pieceIndex == W_TOWER && from == 7) {
+        whiteCastleRight = false;
+    }
+    else if (pieceIndex == B_TOWER && from == 56) {
+        blackCastleLeft = false;
+    }
+    else if (pieceIndex == B_TOWER && from == 63) {
+        blackCastleRight = false;
+    }
 
     // Comprobar si hay una promoción
+    if ((pieceType == W_PAWN && move.to >= 56) || (pieceType == B_PAWN && move.to < 8)) {  
+        if (promotionIndex != -1) { // Si hay promoción
+            pieces[promotionIndex] |= to_mask;
+            pieces[pieceIndex] &= ~to_mask;
+        }
+    }
+
+    // Actualizar la cuenta de movimientos y a quíen le toca mover y último mov
+    moves++;
+    whiteToMove = !whiteToMove;
+    lastMove = move;
 }
 
 bool Board::validateMove(uint64_t from, uint64_t to) {
