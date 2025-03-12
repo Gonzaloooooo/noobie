@@ -130,9 +130,9 @@ public:
     */
     static uint64_t clearBit(uint64_t board, int to);
 
-    int getBit(int pieceIndex, int from);
-    void setBit(int pieceIndex, int to);
-    void clearBit(int pieceIndex, int to);
+    int getBitFromBoard(int pieceIndex, int from);
+    void setBitOfBoard(int pieceIndex, int to);
+    void clearBitFromBoard(int pieceIndex, int to);
 
     // Gets the position of a type of piece using the color and pieces indexes defined in Board
     uint64_t getBitboardFromType(int pieceType) const;
