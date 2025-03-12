@@ -68,7 +68,7 @@ public:
 
     // Métodos públicos
     void printBitboard(uint64_t bitboard); // Imprime el bitboard en formato visual
-    void make_move(int from, int to);      // Realiza un movimiento de una casilla a otra
+    void makeMove(Move move);      // Realiza un movimiento de una casilla a otra
     void print();
 
     bool getBlackCastle(); // Gets a boolean that indicates if castling is possible for black
@@ -129,6 +129,10 @@ public:
     * @returns
     */
     static uint64_t clearBit(uint64_t board, int to);
+
+    void getBit(int pieceIndez, int from);
+    void setBit(int pieceIndex, int to);
+    void clearBit(int pieceIndex, int to);
 
     // Gets the position of a type of piece using the color and pieces indexes defined in Board
     uint64_t getBitboardFromType(int pieceType) const;
