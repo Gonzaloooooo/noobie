@@ -126,15 +126,20 @@ uint64_t Board::getOccupiedBitBoard() const{
     return getBlackBitBoard() | getWhiteBitBoard();
 }
 
-void Board::make_move(int from, int to) {
-    uint64_t from_mask = 1ULL << from;
+void Board::makeMove(Move move) {
+    int pieceType = move.piece;
+    int promotion = move.promotion;
+
+    uint64_t from_mask = 1ULL << move.from;
     uint64_t delete_mask = ~from_mask;
-    uint64_t to_mask = 1ULL << to;
+    uint64_t to_mask = 1ULL << move.to;
     uint64_t occupied = getOccupiedBitBoard();
-    if (validateMove(from_mask, to_mask)) {
-        occupied = occupied & delete_mask; // set to 0 the bit the piece was in
-        occupied = occupied | to_mask;     // set to 1 the bit the piece is goin to
-    }
+
+    // Mover la pieza en su posición correspondiente
+
+    // Borrar las piezas que hayan sido capturadas
+
+    // Comprobar si hay una promoción
 }
 
 bool Board::validateMove(uint64_t from, uint64_t to) {
