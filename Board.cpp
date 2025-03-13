@@ -151,21 +151,21 @@ void Board::makeMove(Move move) {
     else if (pieceIndex == B_KING) {
         blackCastleLeft = blackCastleRight = false;
     } 
-    else if (pieceIndex == W_TOWER && from == 0) {
+    else if (pieceIndex == W_TOWER && move.from == 0) {
         whiteCastleLeft = false;
     }
-    else if (pieceIndex == W_TOWER && from == 7) {
+    else if (pieceIndex == W_TOWER && move.from == 7) {
         whiteCastleRight = false;
     }
-    else if (pieceIndex == B_TOWER && from == 56) {
+    else if (pieceIndex == B_TOWER && move.from == 56) {
         blackCastleLeft = false;
     }
-    else if (pieceIndex == B_TOWER && from == 63) {
+    else if (pieceIndex == B_TOWER && move.from == 63) {
         blackCastleRight = false;
     }
 
     // Comprobar si hay una promoción
-    if ((pieceType == W_PAWN && move.to >= 56) || (pieceType == B_PAWN && move.to < 8)) {  
+    if ((pieceIndex == W_PAWN && move.to >= 56) || (pieceIndex == B_PAWN && move.to < 8)) {  
         if (promotionIndex != -1) { // Si hay promoción
             pieces[promotionIndex] |= to_mask;
             pieces[pieceIndex] &= ~to_mask;
