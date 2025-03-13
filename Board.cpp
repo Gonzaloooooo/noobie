@@ -140,8 +140,11 @@ void Board::makeMove(Move move) {
     pieces[pieceIndex] &= ~from_mask;
 
     // Borrar la pieza que haya sido capturada
-    for (auto& piece : pieces) {
-        piece &= ~to_mask;
+    int size = sizeof(pieces) / sizeof(pieces[0]);
+    for (int i = 0; i < size; i++) {
+        if (i != pieceIndex) {
+            pieces[i] &= ~to_mask;
+        }
     }
 
     // Comprobar el enroque
