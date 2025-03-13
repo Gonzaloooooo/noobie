@@ -72,7 +72,11 @@ public:
     void print();
 
     bool getBlackCastle(); // Gets a boolean that indicates if castling is possible for black
+    bool getLeftBlackCastle();
+    bool getRightBlackCastle();
     bool getWhiteCastle(); // Gets a boolean that indicates if castling is possible for white
+    bool getLeftWhiteCastle();
+    bool getRightWhiteCastle();
     bool isWhiteToMove();  // Gets a boolean that indicates if white is making the next move
     void setWhiteToMove(bool value);
 
