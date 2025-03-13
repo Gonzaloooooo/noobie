@@ -74,8 +74,24 @@ bool Board::getBlackCastle() {
     return blackCastleLeft || blackCastleRight;
 }
 
+bool Board::getLeftBlackCastle() {
+    return blackCastleLeft;
+}
+
+bool Board::getRightBlackCastle() {
+    return blackCastleRight;
+}
+
 bool Board::getWhiteCastle() {
     return whiteCastleLeft || whiteCastleRight;
+}
+
+bool Board::getLeftWhiteCastle() {
+    return whiteCastleLeft;
+}
+
+bool Board::getRightWhiteCastle() {
+    return whiteCastleRight;
 }
 
 bool Board::isWhiteToMove() {
