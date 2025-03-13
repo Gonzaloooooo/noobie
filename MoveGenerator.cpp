@@ -354,3 +354,104 @@ void MoveGenerator::generateKingMoves(const Board& board, std::vector<Move>& mov
         }
     }
 }
+
+bool MoveGenerator::isHorizontalPathClear(Move m, uint64_t occupied) {
+    bool isClear = true;
+
+    int fromRank = m.from / 8;
+    int toRank = m.to / 8;
+
+    if (m.from == m.to || fromRank != toRank) {
+        throw std::invalid_argument("Movimiento no válido: debe ser vertical.");
+    }
+
+    if (m.from == m.to) {
+        throw std::invalid_argument("La casilla de origen y destino no pueden ser la misma.");
+    }
+
+    if (m.from > m.to) {
+        for (int i = m.from - 1; i > m.to; i--) {
+            uint64_t i_mask = 1ULL << i;
+            if (i_mask & occupied) {
+                isClear = false;
+                break;
+            }
+        }
+    }
+    else {
+        for (int i = m.from + 1; i < m.to; i++) {
+            uint64_t i_mask = 1ULL << i;
+            if (i_mask & occupied) {
+                isClear = false;
+                break;
+            }
+        }
+    }
+    return isClear;
+}
+
+bool isVerticalPathClear(Move m, uint64_t occupied) {
+    bool isClear = true;
+    int fromRank = m.from / 8;
+    int fromCol = m.from % 8;
+    int toRank = m.to / 8;
+    int toCol = m.to % 8;
+
+    if (m.from == m.to || fromCol != toCol) {
+        throw std::invalid_argument("Movimiento no válido: debe ser vertical.");
+    }
+
+    if (m.from == m.to) {
+        throw std::invalid_argument("La casilla de origen y destino no pueden ser la misma.");
+    }
+
+    if (fromRank > toRank) {
+        for (int rank = fromRank - 1; rank > toRank; rank--) {
+            uint64_t mask = 1ULL << (rank * 8 + fromCol);
+            if (mask & occupied) {
+                isClear = false;
+                break;
+            }
+        }
+    }
+    else {
+        for (int rank = fromRank + 1; rank < toRank; rank++) {
+            uint64_t mask = 1ULL << (rank * 8 + fromCol);
+            if (mask & occupied) {
+                isClear = false;
+                break;
+            }
+        }
+    }
+    return isClear;
+}
+
+bool isDiagonalPathClear(Move m, uint64_t occupied) {
+    bool isClear = true;
+    int fromRank = m.from / 8;
+    int fromCol = m.from % 8;
+    int toRank = m.to / 8;
+    int toCol = m.to % 8;
+
+    if (m.from == m.to || abs(fromRank - toRank) != abs(fromCol - toCol)) {
+        throw std::invalid_argument("Movimiento no válido: debe ser diagonal.");
+    }
+
+    if (m.from == m.to) {
+        throw std::invalid_argument("La casilla de origen y destino no pueden ser la misma.");
+    }
+
+    int rankStep = (toRank > fromRank) ? 1 : -1;
+    int colStep = (toCol > fromCol) ? 1 : -1;
+
+    for (int rank = fromRank + rankStep, col = fromCol + colStep;
+        rank != toRank;
+        rank += rankStep, col += colStep) {
+        uint64_t mask = 1ULL << (rank * 8 + col);
+        if (mask & occupied) {
+            isClear = false;
+            break;
+        }
+    }
+    return isClear;
+}
