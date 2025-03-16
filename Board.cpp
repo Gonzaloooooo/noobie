@@ -94,7 +94,7 @@ bool Board::getRightWhiteCastle() {
     return whiteCastleRight;
 }
 
-bool Board::isWhiteToMove() {
+bool Board::isWhiteToMove() const{
     return whiteToMove;
 }
 

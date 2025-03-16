@@ -77,7 +77,7 @@ public:
     bool getWhiteCastle(); // Gets a boolean that indicates if castling is possible for white
     bool getLeftWhiteCastle();
     bool getRightWhiteCastle();
-    bool isWhiteToMove();  // Gets a boolean that indicates if white is making the next move
+    bool isWhiteToMove() const;  // Gets a boolean that indicates if white is making the next move
     void setWhiteToMove(bool value);
 
     int getMoves(); // Gets the number of moves that have happened in the match
