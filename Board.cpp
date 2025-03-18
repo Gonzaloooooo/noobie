@@ -265,3 +265,19 @@ void Board::clearBitOfBoard(int pieceIndex, int to) {
 
     pieces[pieceIndex] &= ~(1ULL << to); 
 }
+
+Board Board::clone() const {
+    Board copy;
+    for (int i = 0; i < 12; i++) {
+        copy.pieces[i] = this->pieces[i];
+    }
+    copy.whiteCastleLeft = this->whiteCastleLeft;
+    copy.whiteCastleRight = this->whiteCastleRight;
+    copy.blackCastleLeft = this->blackCastleLeft;
+    copy.blackCastleRight = this->blackCastleRight;
+    copy.whiteToMove = this->whiteToMove;
+    copy.moves = this->moves;
+    copy.lastMove = this->lastMove;
+
+    return copy;
+}

@@ -150,6 +150,8 @@ public:
     // Gets the position of all pieces in a single bitboard
     uint64_t getOccupiedBitBoard() const;
 
+    Board clone() const;
+
 private:
     bool validateMove(uint64_t from, uint64_t to);
 };
