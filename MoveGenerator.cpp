@@ -390,7 +390,7 @@ bool MoveGenerator::isHorizontalPathClear(Move m, uint64_t occupied) {
     return isClear;
 }
 
-bool isVerticalPathClear(Move m, uint64_t occupied) {
+bool MoveGenerator::isVerticalPathClear(Move m, uint64_t occupied) {
     bool isClear = true;
     int fromRank = m.from / 8;
     int fromCol = m.from % 8;
