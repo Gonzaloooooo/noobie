@@ -33,7 +33,7 @@ private:
     static void generateQueenMoves(const Board& board, std::vector<Move>& moves, int color);
     static void generateKingMoves(const Board& board, std::vector<Move>& moves, int color);
     // Métodos para la validación de movimientos
-    static bool isKingInCheck(const Board& board, std::vector<Move>& moves);
+    static bool isKingInCheck(const Board& board, int kingColor);
     static bool isPathClear(Move m, uint64_t occupied);
     static bool isHorizontalPathClear(Move m, uint64_t occupied);
     static bool isVerticalPathClear(Move m, uint64_t occupied);

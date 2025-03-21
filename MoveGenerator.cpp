@@ -455,3 +455,101 @@ bool isDiagonalPathClear(Move m, uint64_t occupied) {
     }
     return isClear;
 }
+
+bool MoveGenerator::isKingInCheck(const Board& board, int kingColor) {
+    uint64_t kingBitboard = (kingColor == WHITE) ? board.getBitboardFromType(Board::W_KING)
+                                                 : board.getBitboardFromType(Board::B_KING);
+    
+    // Buscamos la posición del rey
+    int kingPosition = -1;
+    for (int i = 0; i < 64; i++) {
+        if (kingBitboard & (1ULL << i)) {
+            kingPosition = i;
+            break;
+        }
+    }
+
+    // Generamos los movimientos del oponente
+    int opponentColor = (kingColor == WHITE) ? BLACK : WHITE;
+    MoveGenerator moveGen;
+    std::vector<Move> opponentMoves = moveGen.generateMoves(board, opponentColor);
+
+    for (const Move& move : opponentMoves) {
+        if (move.to == kingPosition) {
+            return true; // El rey está en jaque
+        }
+    }
+
+    return false;
+}
+
+bool MoveGenerator::isLegal(const Board& board, Move m) {
+    bool isKingInCheck = false;
+    int color = (board.isWhiteToMove() ? WHITE : BLACK);
+    int pieceIndex = m.piece;
+    uint64_t occupied = board.getOccupiedBitBoard();
+    uint64_t position = (board.isWhiteToMove() ? board.getWhiteBitBoard() : board.getBlackBitBoard());
+    uint64_t oppPosition = (board.isWhiteToMove() ? board.getBlackBitBoard() : board.getWhiteBitBoard());
+    uint64_t toMask = 1ULL << m.to;
+    Move lastMove = board.getLastMove();
+
+    // Tabla auxiliar para comprobar el jaque
+    Board auxBoard = board.clone();
+    auxBoard.makeMove(m);
+
+    // Verificar si la casilla de destino está ocupada por una pieza del mismo color
+    if (toMask & position) {
+        return false;
+    }
+
+    // Comprobar si el camino está despejado según el tipo de movimiento
+    if ((pieceIndex == TOWER || pieceIndex == QUEEN) & isSameRank(m.from, m.to)) {
+        return isHorizontalPathClear(m, occupied);
+    } 
+    else if ((pieceIndex == TOWER || pieceIndex == QUEEN) & isSameColumn(m.from, m.to)) {
+        return isVerticalPathClear(m, occupied);
+    } 
+    else if ((pieceIndex == BISHOP || pieceIndex == QUEEN) & isSameDiagonal(m.from, m.to)) {
+        return isDiagonalPathClear(m, occupied);
+    }
+    else if (pieceIndex == KNIGHT) { // Comprobación para los caballos
+        return isKnigthMove(m.from, m.to);
+    }
+    else if (pieceIndex == PAWN) {
+        int direction = (board.isWhiteToMove()) ? 8 : -8; // Blancas suben, negras bajan
+        // int startRow = (board.isWhiteToMove()) ? 8 : 48;  // Filas iniciales para peones
+        int startRow = m.from / 8;
+        //int startRank = m.from % 8;
+
+        // 1 casillas hacia delante
+        if ((m.to == m.from + direction) && !(toMask & occupied)) {
+            return true;
+        }
+
+        // 2 casillas hacia delante
+        if ((color == WHITE && startRow == 1) || (color == BLACK && startRow == 6)) {
+            if (m.to == m.from + 2 * direction && !(toMask & occupied)) {
+                uint64_t intermediateSqu = 1ULL << (m.to + direction);
+                if (!(intermediateSqu & occupied)) {
+                    return true;
+                }
+            }
+        }
+
+        // Movimiento en diagonal
+        if ((m.to == m.from + direction + 1) || (m.to == m.from + direction - 1)) {
+            // Captura en diagonal
+            if (toMask & oppPosition) {
+                return true;
+            }
+            // En passant
+            else if (lastMove.piece == PAWN && abs(lastMove.from - lastMove.to) == 16) { // Anterior movimiento es de peón, de dos casillas
+                int passantSquare = lastMove.to; // Casilla donde se encuentra la pieza contraria
+                if (passantSquare == m.from + 1 || passantSquare == m.from - 1) { // Casilla adyacente
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
