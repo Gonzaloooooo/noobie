@@ -82,6 +82,8 @@ public:
 
     int getMoves(); // Gets the number of moves that have happened in the match
 
+    Move getLastMove() const;
+
     int getBoardIndexFromMoveGenerator(int indexFromMoveGenerator); // Devuelve el índice con el que indexar la posición de una pieza a partir del índice de MoveGenerator
 
     /*

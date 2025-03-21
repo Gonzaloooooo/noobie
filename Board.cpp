@@ -106,6 +106,10 @@ int Board::getMoves() {
     return moves;
 }
 
+Move Board::getLastMove() const{
+    return lastMove;
+}
+
 uint64_t Board::getBit(uint64_t board, int from) {
     return board & (1ULL << from);
 }
@@ -267,7 +271,7 @@ void Board::clearBitOfBoard(int pieceIndex, int to) {
 }
 
 Board Board::clone() const {
-    Board copy;
+    Board copy(false);
     for (int i = 0; i < 12; i++) {
         copy.pieces[i] = this->pieces[i];
     }
