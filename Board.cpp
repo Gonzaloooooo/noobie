@@ -315,6 +315,7 @@ Board Board::clone() const {
     copy.whiteToMove = this->whiteToMove;
     copy.moves = this->moves;
     copy.lastMove = this->lastMove;
+    copy.stalemate = this->stalemate;
 
     return copy;
 }
