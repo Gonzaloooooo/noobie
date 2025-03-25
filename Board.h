@@ -30,6 +30,9 @@ private:
     // A quién le toca mover
     bool whiteToMove = true;
 
+    // Rey ahogado
+    bool stalemate = false;
+
     // Último movimiento
     Move lastMove;
 
@@ -151,6 +154,10 @@ public:
 
     // Gets the position of all pieces in a single bitboard
     uint64_t getOccupiedBitBoard() const;
+
+    bool isStalemate() const;
+
+    void setStalemate(bool value);
 
     Board clone() const;
 
