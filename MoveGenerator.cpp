@@ -361,8 +361,8 @@ bool MoveGenerator::isHorizontalPathClear(Move m, uint64_t occupied) {
     int fromRank = m.from / 8;
     int toRank = m.to / 8;
 
-    if (m.from == m.to || fromRank != toRank) {
-        throw std::invalid_argument("Movimiento no válido: debe ser vertical.");
+    if (fromRank != toRank) {
+        throw std::invalid_argument("Movimiento no válido: debe ser horizontal.");
     }
 
     if (m.from == m.to) {
@@ -484,7 +484,6 @@ bool MoveGenerator::isKingInCheck(const Board& board, int kingColor) {
 }
 
 bool MoveGenerator::isLegal(const Board& board, Move m) {
-    bool isKingInCheck = false;
     int color = (board.isWhiteToMove() ? WHITE : BLACK);
     int pieceIndex = m.piece;
     uint64_t occupied = board.getOccupiedBitBoard();
@@ -493,27 +492,23 @@ bool MoveGenerator::isLegal(const Board& board, Move m) {
     uint64_t toMask = 1ULL << m.to;
     Move lastMove = board.getLastMove();
 
-    // Tabla auxiliar para comprobar el jaque
-    Board auxBoard = board.clone();
-    auxBoard.makeMove(m);
-
     // Verificar si la casilla de destino está ocupada por una pieza del mismo color
     if (toMask & position) {
         return false;
     }
 
     // Comprobar si el camino está despejado según el tipo de movimiento
-    if ((pieceIndex == TOWER || pieceIndex == QUEEN) & isSameRank(m.from, m.to)) {
-        return isHorizontalPathClear(m, occupied);
+    if ((pieceIndex == TOWER || pieceIndex == QUEEN) && isSameRank(m.from, m.to) && !(isHorizontalPathClear(m, occupied))) {
+        return false;
     } 
-    else if ((pieceIndex == TOWER || pieceIndex == QUEEN) & isSameColumn(m.from, m.to)) {
-        return isVerticalPathClear(m, occupied);
+    else if ((pieceIndex == TOWER || pieceIndex == QUEEN) && isSameColumn(m.from, m.to) && !(isVerticalPathClear(m, occupied))) {
+        return false;
     } 
-    else if ((pieceIndex == BISHOP || pieceIndex == QUEEN) & isSameDiagonal(m.from, m.to)) {
-        return isDiagonalPathClear(m, occupied);
+    else if ((pieceIndex == BISHOP || pieceIndex == QUEEN) && isSameDiagonal(m.from, m.to) && !(isDiagonalPathClear(m, occupied))) {
+        return false;
     }
-    else if (pieceIndex == KNIGHT) { // Comprobación para los caballos
-        return isKnigthMove(m.from, m.to);
+    else if (pieceIndex == KNIGHT && !(isKnigthMove(m.from, m.to))) { // Comprobación para los caballos
+        return false;
     }
     else if (pieceIndex == PAWN) {
         int direction = (board.isWhiteToMove()) ? 8 : -8; // Blancas suben, negras bajan
@@ -523,16 +518,14 @@ bool MoveGenerator::isLegal(const Board& board, Move m) {
 
         // 1 casillas hacia delante
         if ((m.to == m.from + direction) && !(toMask & occupied)) {
-            return true;
+            goto CHECK_KING;
         }
 
         // 2 casillas hacia delante
         if ((color == WHITE && startRow == 1) || (color == BLACK && startRow == 6)) {
-            if (m.to == m.from + 2 * direction && !(toMask & occupied)) {
-                uint64_t intermediateSqu = 1ULL << (m.to + direction);
-                if (!(intermediateSqu & occupied)) {
-                    return true;
-                }
+            uint64_t intermediateSqu = 1ULL << (m.from + direction);
+            if (m.to == m.from + 2 * direction && !(toMask & occupied) && !(intermediateSqu & occupied)) {
+                goto CHECK_KING;
             }
         }
 
@@ -540,16 +533,25 @@ bool MoveGenerator::isLegal(const Board& board, Move m) {
         if ((m.to == m.from + direction + 1) || (m.to == m.from + direction - 1)) {
             // Captura en diagonal
             if (toMask & oppPosition) {
-                return true;
+                goto CHECK_KING;
             }
             // En passant
             else if (lastMove.piece == PAWN && abs(lastMove.from - lastMove.to) == 16) { // Anterior movimiento es de peón, de dos casillas
                 int passantSquare = lastMove.to; // Casilla donde se encuentra la pieza contraria
-                if (passantSquare == m.from + 1 || passantSquare == m.from - 1) { // Casilla adyacente
-                    return true;
+                int passantLandingSqu = lastMove.to + direction; // Casilla a donde debiera de moverse la pieza atacante para capturar en passant
+                if (m.to == passantLandingSqu && (abs(passantSquare - m.from) == 1)) { // Casilla adyacente
+                    goto CHECK_KING;
                 }
             }
         }
+
+        return false;
     }
-    return false;
+
+CHECK_KING:
+    // Tabla auxiliar para comprobar el jaque
+    Board auxBoard = board.clone();
+    auxBoard.makeMove(m);
+
+    return !isKingInCheck(auxBoard, color);
 }
