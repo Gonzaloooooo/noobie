@@ -9,6 +9,8 @@ std::vector<Move> MoveGenerator::generateMoves(const Board& board, int color)
     generateTowerMoves(board, moves, color, false);
     generateQueenMoves(board, moves, color);
     generateKingMoves(board, moves, color);
+
+    filterMoves(board, moves);
     return moves;
 }
 
