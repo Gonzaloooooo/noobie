@@ -157,12 +157,14 @@ void Board::setStalemate(bool value) {
 void Board::makeMove(Move move) {
     if (!stalemate) {
         int pieceIndex = getBoardIndexFromMoveGenerator(move.piece);
+        int lastMovePieceIndex = getBoardIndexFromMoveGenerator(lastMove.piece);
         int promotionIndex = getBoardIndexFromMoveGenerator(move.promotion);
 
         uint64_t from_mask = 1ULL << move.from;
         uint64_t delete_mask = ~from_mask;
         uint64_t to_mask = 1ULL << move.to;
         uint64_t occupied = getOccupiedBitBoard();
+        uint64_t oppPosition = whiteToMove ? getBlackBitBoard() : getWhiteBitBoard();
 
         // Mover la pieza en su posición correspondiente
         pieces[pieceIndex] |= to_mask;
@@ -173,6 +175,27 @@ void Board::makeMove(Move move) {
         for (int i = 0; i < size; i++) {
             if (i != pieceIndex) {
                 pieces[i] &= ~to_mask;
+            }
+        }
+
+        // Comprobar captura en passant
+        int direction = whiteToMove ? 8 : -8;
+        if ((pieceIndex == W_PAWN || pieceIndex == B_PAWN) && 
+            (move.to == (move.from + direction + 1) || move.to == (move.from + direction - 1))) {
+            if ((lastMovePieceIndex == W_PAWN || lastMovePieceIndex == B_PAWN) && abs(lastMove.from - lastMove.to) == 16) {
+
+                int passantSquare = lastMove.to;                        // Casilla donde se encuentra la pieza contraria
+                int passantLandingSqu = lastMove.to + direction;        // Casilla a donde se mueve la pieza atacante
+                uint64_t passantLndSquMask = 1ULL << passantLandingSqu; // Máscara de la casilla de llegada
+                uint64_t passantSquMask = 1ULL << passantSquare;
+
+                if ((abs(passantSquare - move.from) == 1) && // Casilla es adyacente
+                    (occupied & passantSquMask) &&           // Casilla adyacente ocupada por enemigo
+                    !(occupied & passantLndSquMask)) {       // Casilla de llegada libre   
+                    for (int i = 0; i < size; i++) {
+                        pieces[i] &= ~passantSquMask;
+                    }
+                }
             }
         }
 
