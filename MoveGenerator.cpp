@@ -547,6 +547,12 @@ bool MoveGenerator::isLegal(const Board& board, Move m) {
 
         return false;
     }
+    else if (pieceIndex == KING) {
+        int diff = abs(m.from - m.to);
+        if (diff == 1 || diff == 9 || diff == 7 || diff == 8) {
+            goto CHECK_KING;
+        }
+    }
 
 CHECK_KING:
     // Tabla auxiliar para comprobar el jaque
