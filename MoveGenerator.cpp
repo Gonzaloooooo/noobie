@@ -530,7 +530,7 @@ bool MoveGenerator::isLegal(const Board& board, Move m) {
         }
 
         // Movimiento en diagonal
-        if ((m.to == m.from + direction + 1) || (m.to == m.from + direction - 1)) {
+        if ((m.to == (m.from + direction + 1)) || (m.to == (m.from + direction - 1))) {
             // Captura en diagonal
             if (toMask & oppPosition) {
                 goto CHECK_KING;
@@ -560,4 +560,13 @@ CHECK_KING:
     auxBoard.makeMove(m);
 
     return !isKingInCheck(auxBoard, color);
+}
+
+void MoveGenerator::filterMoves(const Board& board, std::vector<Move>& moves) {
+    for (int i = 0; i < moves.size(); i++) {
+        Move move = moves.at(i);
+        if (!isLegal(board, move)) {
+            moves.erase(moves.begin()+i);
+        }
+    }
 }
