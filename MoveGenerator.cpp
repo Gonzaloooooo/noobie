@@ -682,3 +682,32 @@ uint64_t MoveGenerator::generateBishopAttacks(uint64_t bishops, uint64_t opposit
     }
     return attacks;
 }
+
+uint64_t generateKnightAttacks(uint64_t knights, uint64_t opposition, uint64_t occupied) {
+    uint64_t attacks = 0ULL;
+    for (int square = 0; square < 64; square++) {
+        if (knights & (1ULL << square)) {
+            // 2 casillas a la izquierda + 1 hacia arriba (mueve hacia la izquierda)
+            if (square % 8 > 1) {  // Verificar si está en el borde izquierdo
+                if (square > 15) attacks |= (1ULL << (square - 17)); // Arriba izquierda
+                if (square < 48) attacks |= (1ULL << (square + 15)); // Abajo izquierda
+            }
+            // 2 casillas a la derecha + 1 hacia arriba
+            if (square % 8 < 6) {  // Verificar si está en el borde derecho
+                if (square > 15) attacks |= (1ULL << (square - 15)); // Arriba derecha
+                if (square < 48) attacks |= (1ULL << (square + 17)); // Abajo derecha
+            }
+            // 2 casillas hacia arriba + 1 hacia la derecha
+            if (square > 15) {
+                if (square % 8 > 0) attacks |= (1ULL << (square - 6)); // Arriba derecha
+                if (square % 8 < 7) attacks |= (1ULL << (square - 10)); // Arriba izquierda
+            }
+            // 2 casillas hacia abajo + 1 hacia la derecha
+            if (square < 48) {
+                if (square % 8 > 0) attacks |= (1ULL << (square + 6)); // Abajo derecha
+                if (square % 8 < 7) attacks |= (1ULL << (square + 10)); // Abajo izquierda
+            }
+        }
+    }
+    return attacks;
+}
