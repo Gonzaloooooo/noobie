@@ -10,7 +10,7 @@ std::vector<Move> MoveGenerator::generateMoves(const Board& board, int color)
     generateQueenMoves(board, moves, color);
     generateKingMoves(board, moves, color);
 
-    filterMoves(board, moves);
+    //filterMoves(board, moves);
     return moves;
 }
 
@@ -70,7 +70,7 @@ void MoveGenerator::generatePawnMoves(const Board& board, std::vector<Move>& mov
 
 void MoveGenerator::generateWhitePawnsMoves(const Board& board, std::vector<Move>& moves) 
 {
-    uint64_t w_pawns = board.getBitboardFromType(board.W_PAWN);
+    uint64_t w_pawns = board.getBitboardFromType(Board::W_PAWN);
 
     for (int from = 0; from < 64; from++) {
         uint64_t from_mask = Board::getBit(w_pawns, from);
@@ -461,6 +461,7 @@ bool isDiagonalPathClear(Move m, uint64_t occupied) {
 bool MoveGenerator::isKingInCheck(const Board& board, int kingColor) {
     uint64_t kingBitboard = (kingColor == WHITE) ? board.getBitboardFromType(Board::W_KING)
                                                  : board.getBitboardFromType(Board::B_KING);
+    int oppColor = (kingColor == WHITE) ? BLACK : WHITE;
     
     // Buscamos la posición del rey
     int kingPosition = -1;
@@ -471,17 +472,33 @@ bool MoveGenerator::isKingInCheck(const Board& board, int kingColor) {
         }
     }
 
-    // Generamos los movimientos del oponente
+    uint64_t enemyPawns = board.getBitboardFromType( (oppColor==Board::WHITE) ? Board::W_PAWN : Board::B_PAWN );
+    uint64_t attacks = 0ULL;
+    attacks |= (enemyPawns & ~Board::left) << 7; // Evita salirse por la columna A
+    attacks |= (enemyPawns & ~Board::right) << 9; // Evita salirse por la columna H
+
+    if (kingBitboard & attacks) {
+        return true;
+    }
+
+    uint64_t enemyBishop = board.getBitBoardFromType( (oppColor == Board::WHITE) ? Board::W_BISHOP : Board::B_BISHOP );
+    for (int from = 0; from < 64; from++) {
+
+    }
+    
+    /**
+    //Generamos los movimientos del oponente
     int opponentColor = (kingColor == WHITE) ? BLACK : WHITE;
     MoveGenerator moveGen;
     std::vector<Move> opponentMoves = moveGen.generateMoves(board, opponentColor);
+    moveGen.filterMoves(board, opponentMoves);
 
     for (const Move& move : opponentMoves) {
         if (move.to == kingPosition) {
             return true; // El rey está en jaque
         }
     }
-
+    **/
     return false;
 }
 
@@ -546,7 +563,6 @@ bool MoveGenerator::isLegal(const Board& board, Move m) {
                 }
             }
         }
-
         return false;
     }
     else if (pieceIndex == KING) {
@@ -569,6 +585,7 @@ void MoveGenerator::filterMoves(const Board& board, std::vector<Move>& moves) {
         Move move = moves.at(i);
         if (!isLegal(board, move)) {
             moves.erase(moves.begin()+i);
+            i--;
         }
     }
 }
