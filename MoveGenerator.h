@@ -39,7 +39,7 @@ private:
     static bool isVerticalPathClear(Move m, uint64_t occupied);
     static bool isDiagonalClear(Move m, uint64_t occupied);
     // Métodos para la crear los ataques
-    static uint64_t generatePawnAttacks(uint64_t pawns, uint64_t opposition, uint64_t occupied, int color);
+    static uint64_t generatePawnAttacks(uint64_t pawns, int color);
     static uint64_t generateBishopAttacks(uint64_t bishops, uint64_t opposition, uint64_t occupied);
     static uint64_t generateKnightAttacks(uint64_t knight, uint64_t opposition, uint64_t occupied);
     static uint64_t generateTowersAttacks(uint64_t towers, uint64_t opposition, uint64_t occupied);
