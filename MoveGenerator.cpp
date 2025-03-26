@@ -481,7 +481,7 @@ bool MoveGenerator::isKingInCheck(const Board& board, int kingColor) {
         return true;
     }
 
-    uint64_t enemyBishop = board.getBitBoardFromType( (oppColor == Board::WHITE) ? Board::W_BISHOP : Board::B_BISHOP );
+    uint64_t enemyBishop = board.getBitboardFromType( (oppColor == Board::WHITE) ? Board::W_BISHOP : Board::B_BISHOP );
     for (int from = 0; from < 64; from++) {
 
     }
@@ -588,4 +588,17 @@ void MoveGenerator::filterMoves(const Board& board, std::vector<Move>& moves) {
             i--;
         }
     }
+}
+
+uint64_t MoveGenerator::generatePawnAttacks(uint64_t pawns, int color) {
+    uint64_t attacks = 0ULL;
+    if (color == Board::WHITE) {
+        attacks |= (pawns & ~Board::left) << 7; // Evita salirse por la columna A
+        attacks |= (pawns & ~Board::right) << 9; // Evita salirse por la columna H
+    }
+    else {
+        attacks |= (pawns & ~Board::left) >> 7; // Evita salirse por la columna A
+        attacks |= (pawns & ~Board::right) >> 9; // Evita salirse por la columna H
+    }
+    return attacks;
 }
