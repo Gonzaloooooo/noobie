@@ -602,3 +602,83 @@ uint64_t MoveGenerator::generatePawnAttacks(uint64_t pawns, int color) {
     }
     return attacks;
 }
+
+uint64_t MoveGenerator::generateBishopAttacks(uint64_t bishops, uint64_t opposition, uint64_t occupied) {
+    uint64_t attacks = 0ULL;
+    for (int square = 0; square < 64; square++) {
+        if ((bishops & (1ULL << square))) {
+            // Diagonal superior derecha
+            for (int to = square + 9; to < 64; to += 9) {
+                uint64_t attack = 1ULL << to;
+                // Límites del tablero
+                if (((1ULL << square) & Board::right) || ((1ULL << square) & Board::top)) {
+                    break;
+                }
+                if (!(attack & occupied)) {
+                    attacks |= attack;
+                }
+                else {
+                    if (attack & opposition) {
+                        attacks |= attack;
+                    }
+                    break;
+                }
+            }
+
+            //Diagonal inferior izquierda
+            for (int to = square - 9; to >=0; to -= 9) {
+                uint64_t attack = 1ULL << to;
+                // Límites del tablero
+                if (((1ULL << square) & Board::left) || ((1ULL << square) & Board::bottom)) {
+                    break;
+                }
+                if (!(attack & occupied)) {
+                    attacks |= attack;
+                }
+                else {
+                    if (attack & opposition) {
+                        attacks |= attack;
+                    }
+                    break;
+                }
+            }
+
+            //Diagonal superior izquierda
+            for (int to = square + 7; to < 64; to+=7) {
+                uint64_t attack = 1ULL << to;
+                // Límites del tablero
+                if (((1ULL << square) & Board::left) || ((1ULL << square) & Board::top)) {
+                    break;
+                }
+                if (!(attack & occupied)) {
+                    attacks |= attack;
+                }
+                else {
+                    if (attack & opposition) {
+                        attacks |= attack;
+                    }
+                    break;
+                }
+            }
+
+            // Diagonal inferior derecha
+            for (int to = square - 7; to >= 0; to-=7) {
+                uint64_t attack = 1ULL << to;
+                // Límites del tablero
+                if (((1ULL << square) & Board::right) || ((1ULL << square) & Board::bottom)) {
+                    break;
+                }
+                if (!(attack & occupied)) {
+                    attacks |= attack;
+                }
+                else {
+                    if (attack & opposition) {
+                        attacks |= attack;
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    return attacks;
+}
