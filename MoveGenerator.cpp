@@ -683,7 +683,7 @@ uint64_t MoveGenerator::generateBishopAttacks(uint64_t bishops, uint64_t opposit
     return attacks;
 }
 
-uint64_t generateKnightAttacks(uint64_t knights, uint64_t opposition, uint64_t occupied) {
+uint64_t MoveGenerator::generateKnightAttacks(uint64_t knights, uint64_t opposition, uint64_t occupied) {
     uint64_t attacks = 0ULL;
     for (int square = 0; square < 64; square++) {
         if (knights & (1ULL << square)) {
@@ -712,7 +712,7 @@ uint64_t generateKnightAttacks(uint64_t knights, uint64_t opposition, uint64_t o
     return attacks;
 }
 
-uint64_t generateTowerAttacks(uint64_t towers, uint64_t opposition, uint64_t occupied) {
+uint64_t MoveGenerator::generateTowerAttacks(uint64_t towers, uint64_t opposition, uint64_t occupied) {
     uint64_t attacks = 0ULL;
     for (int square = 0; square < 64; square++) {
         if ((1ULL << square) & towers) {
