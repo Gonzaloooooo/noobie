@@ -785,3 +785,15 @@ uint64_t MoveGenerator::generateTowerAttacks(uint64_t towers, uint64_t oppositio
     }
     return attacks;
 }
+
+uint64_t MoveGenerator::generateQueenAttacks(uint64_t queens, uint64_t opposition, uint64_t occupied) {
+    MoveGenerator moveGen;
+    uint64_t attacks = 0ULL;
+    for (int square = 0; square < 64; square++) {
+        if (!((1ULL << square) && queens)) {
+            attacks |= generateBishopAttacks(queens, opposition, occupied);
+            attacks |= generateTowerAttacks(queens, opposition, occupied);
+        }
+    }
+    return attacks;
+}
