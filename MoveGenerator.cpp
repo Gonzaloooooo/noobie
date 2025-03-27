@@ -711,3 +711,77 @@ uint64_t generateKnightAttacks(uint64_t knights, uint64_t opposition, uint64_t o
     }
     return attacks;
 }
+
+uint64_t generateTowerAttacks(uint64_t towers, uint64_t opposition, uint64_t occupied) {
+    uint64_t attacks = 0ULL;
+    for (int square = 0; square < 64; square++) {
+        if ((1ULL << square) & towers) {
+            int fromRank = square / 8;
+            // Hacia la derecha
+            if (!((1ULL << square) & Board::right)) { // Límite derecho del tablero
+                for (int to = (square + 1); ((to / 8) == fromRank) && (to<64); to++) {
+                    uint64_t attack = 1ULL << to;
+
+                    if (!(attack & occupied)) {
+                        attacks |= attack;
+                    }
+                    else {
+                        if (attack & opposition) {
+                            attacks |= attack;
+                        }
+                        break;
+                    }
+                }
+            }
+            
+            // Hacia la izquierda
+            if (!((1ULL << square) & Board::left)) { // Límite izquierdo del tablero
+                for (int to = (square - 1); ((to / 8) == fromRank) && (to >= 0); to--) {
+                    uint64_t attack = 1ULL << to;
+                    if (!(attack & occupied)) {
+                        attacks |= attack;
+                    }
+                    else {
+                        if (attack & opposition) {
+                            attacks |= attack;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // Hacia arriba
+            if (!((1ULL << square) & Board::top)) {
+                for (int to = (square + 8); to < 64; to += 8) {
+                    uint64_t attack = 1ULL << to;
+                    if (!(attack & occupied)) {
+                        attacks |= attack;
+                    }
+                    else {
+                        if (attack & opposition) {
+                            attacks |= attack;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // Hacia abajo
+            if (!((1ULL << square) & Board::bottom)) {
+                for (int to = (square - 8); to >= 0; to -= 8) {
+                    uint64_t attack = 1ULL << to;
+                    if (!(attack & occupied)) {
+                        attacks |= attack;
+                    }
+                    else {
+                        if (attack & opposition) {
+                            attacks |= attack;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return attacks;
+}
