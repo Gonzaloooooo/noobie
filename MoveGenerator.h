@@ -42,7 +42,7 @@ private:
     static uint64_t generatePawnAttacks(uint64_t pawns, int color);
     static uint64_t generateBishopAttacks(uint64_t bishops, uint64_t opposition, uint64_t occupied);
     static uint64_t generateKnightAttacks(uint64_t knight, uint64_t opposition, uint64_t occupied);
-    static uint64_t generateTowersAttacks(uint64_t towers, uint64_t opposition, uint64_t occupied);
+    static uint64_t generateTowerAttacks(uint64_t towers, uint64_t opposition, uint64_t occupied);
     static uint64_t generateQueenAttacks(uint64_t queens, uint64_t opposition, uint64_t occupied);
     static uint64_t generateKingAttacks(uint64_t king, uint64_t opposition, uint64_t occupied);
 public:
