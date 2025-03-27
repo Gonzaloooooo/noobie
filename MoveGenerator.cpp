@@ -10,7 +10,7 @@ std::vector<Move> MoveGenerator::generateMoves(const Board& board, int color)
     generateQueenMoves(board, moves, color);
     generateKingMoves(board, moves, color);
 
-    //filterMoves(board, moves);
+    filterMoves(board, moves);
     return moves;
 }
 
@@ -461,6 +461,12 @@ bool isDiagonalPathClear(Move m, uint64_t occupied) {
 bool MoveGenerator::isKingInCheck(const Board& board, int kingColor) {
     uint64_t kingBitboard = (kingColor == WHITE) ? board.getBitboardFromType(Board::W_KING)
                                                  : board.getBitboardFromType(Board::B_KING);
+
+    uint64_t position = (kingColor == WHITE) ? board.getWhiteBitBoard()
+                                             : board.getBlackBitBoard();
+
+    uint64_t occupied = board.getOccupiedBitBoard();
+
     int oppColor = (kingColor == WHITE) ? BLACK : WHITE;
     
     // Buscamos la posición del rey
@@ -473,32 +479,24 @@ bool MoveGenerator::isKingInCheck(const Board& board, int kingColor) {
     }
 
     uint64_t enemyPawns = board.getBitboardFromType( (oppColor==Board::WHITE) ? Board::W_PAWN : Board::B_PAWN );
+    uint64_t enemyBishop = board.getBitboardFromType((oppColor == Board::WHITE) ? Board::W_BISHOP : Board::B_BISHOP);
+    uint64_t enemyKnight = board.getBitboardFromType((oppColor == Board::WHITE) ? Board::W_KNIGHT : Board::B_KNIGHT);
+    uint64_t enemyTower = board.getBitboardFromType((oppColor == Board::WHITE) ? Board::W_TOWER : Board::B_TOWER);
+    uint64_t enemyQueen = board.getBitboardFromType((oppColor == Board::WHITE) ? Board::W_QUEEN : Board::B_QUEEN);
+    uint64_t enemyKing = board.getBitboardFromType((oppColor == Board::WHITE) ? Board::W_KING : Board::B_KING);
+
     uint64_t attacks = 0ULL;
-    attacks |= (enemyPawns & ~Board::left) << 7; // Evita salirse por la columna A
-    attacks |= (enemyPawns & ~Board::right) << 9; // Evita salirse por la columna H
+    attacks |= generatePawnAttacks(enemyPawns, oppColor);
+    attacks |= generateBishopAttacks(enemyBishop, position, occupied);
+    attacks |= generateKnightAttacks(enemyKnight, position, occupied);
+    attacks |= generateKnightAttacks(enemyTower, position, occupied);
+    attacks |= generateKnightAttacks(enemyQueen, position, occupied);
+    attacks |= generateKnightAttacks(enemyKing, position, occupied);
 
     if (kingBitboard & attacks) {
         return true;
     }
 
-    uint64_t enemyBishop = board.getBitboardFromType( (oppColor == Board::WHITE) ? Board::W_BISHOP : Board::B_BISHOP );
-    for (int from = 0; from < 64; from++) {
-
-    }
-    
-    /**
-    //Generamos los movimientos del oponente
-    int opponentColor = (kingColor == WHITE) ? BLACK : WHITE;
-    MoveGenerator moveGen;
-    std::vector<Move> opponentMoves = moveGen.generateMoves(board, opponentColor);
-    moveGen.filterMoves(board, opponentMoves);
-
-    for (const Move& move : opponentMoves) {
-        if (move.to == kingPosition) {
-            return true; // El rey está en jaque
-        }
-    }
-    **/
     return false;
 }
 
