@@ -787,12 +787,118 @@ uint64_t MoveGenerator::generateTowerAttacks(uint64_t towers, uint64_t oppositio
 }
 
 uint64_t MoveGenerator::generateQueenAttacks(uint64_t queens, uint64_t opposition, uint64_t occupied) {
-    MoveGenerator moveGen;
     uint64_t attacks = 0ULL;
     for (int square = 0; square < 64; square++) {
         if (!((1ULL << square) && queens)) {
             attacks |= generateBishopAttacks(queens, opposition, occupied);
             attacks |= generateTowerAttacks(queens, opposition, occupied);
+        }
+    }
+    return attacks;
+}
+
+uint64_t MoveGenerator::generateKingAttacks(uint64_t king, uint64_t opposition, uint64_t occupied) {
+    uint64_t attacks = 0ULL;
+    for (int square = 0; square < 64; square++) {
+        if ((1ULL << square) & king) {
+            // Arriba
+            uint64_t attack;
+            if (!((1ULL << square) & Board::top)) {
+                attack = (1ULL << (square + 8));
+                if (!(attack & occupied)) {
+                    attacks |= attack;
+                }
+                else {
+                    if (attack & opposition) {
+                        attacks |= attack;
+                    }
+                }
+                // Arriba derecha
+                if (!((1ULL << square) & Board::right)) {
+                    attack = (1ULL << (square + 9));
+                    if (!(attack & occupied)) {
+                        attacks |= attack;
+                    }
+                    else {
+                        if (attack & opposition) {
+                            attacks |= attack;
+                        }
+                    }
+                }
+                // Arriba izquierda
+                if (!((1ULL << square) & Board::left)) {
+                    attacks |= (1ULL << (square + 7));
+                    attack = (1ULL << (square + 7));
+                    if (!(attack & occupied)) {
+                        attacks |= attack;
+                    }
+                    else {
+                        if (attack & opposition) {
+                            attacks |= attack;
+                        }
+                    }
+                }
+            }
+            // Derecha
+            if (!((1ULL << square) & Board::right)) {
+                attack = (1ULL << (square + 1));
+                if (!(attack & occupied)) {
+                    attacks |= attack;
+                }
+                else {
+                    if (attack & opposition) {
+                        attacks |= attack;
+                    }
+                }
+            }
+            // Abajo
+            if (!((1ULL << square) & Board::bottom)) {
+                attack = (1ULL << (square - 8));
+                if (!(attack & occupied)) {
+                    attacks |= attack;
+                }
+                else {
+                    if (attack & opposition) {
+                        attacks |= attack;
+                    }
+                }
+                // Abajo derecha
+                if (!((1ULL << square) & Board::right)) {
+                    attack = (1ULL << (square - 7));
+                    if (!(attack & occupied)) {
+                        attacks |= attack;
+                    }
+                    else {
+                        if (attack & opposition) {
+                            attacks |= attack;
+                        }
+                    }
+                }
+                // Abajo izquierda
+                if (!((1ULL << square) & Board::left)) {
+                    attack = (1ULL << (square - 9));
+                    if (!(attack & occupied)) {
+                        attacks |= attack;
+                    }
+                    else {
+                        if (attack & opposition) {
+                            attacks |= attack;
+                        }
+                    }
+                }
+            }
+            // Izquierda
+            if (!((1ULL << square) & Board::left)) {
+                attack = (1ULL << (square - 1));
+                if (!(attack & occupied)) {
+                    attacks |= attack;
+                }
+                else {
+                    if (attack & opposition) {
+                        attacks |= attack;
+                    }
+                }
+            }
         }
     }
     return attacks;
