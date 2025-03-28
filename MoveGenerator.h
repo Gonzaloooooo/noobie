@@ -38,6 +38,7 @@ private:
     static bool isHorizontalPathClear(Move m, uint64_t occupied);
     static bool isVerticalPathClear(Move m, uint64_t occupied);
     static bool isDiagonalClear(Move m, uint64_t occupied);
+    static bool isSquareUnderAttack(int square, uint64_t opposition, uint64_t occupied);
     // Métodos para la crear los ataques
     static uint64_t generatePawnAttacks(uint64_t pawns, int color);
     static uint64_t generateBishopAttacks(uint64_t bishops, uint64_t opposition, uint64_t occupied);
