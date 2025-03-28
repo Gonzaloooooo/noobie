@@ -353,6 +353,14 @@ void MoveGenerator::generateKingMoves(const Board& board, std::vector<Move>& mov
                     moves.push_back(m);
                 }
             }
+            // Enroque
+            if ((color == Board::WHITE && from == 4) ||
+                (color == Board::BLACK && from == 60)) {
+                Move m1{ from, to + 2, KING, NULL_TYPE };
+                Move m2{ from, to - 2, KING, NULL_TYPE };
+                moves.push_back(m1);
+                moves.push_back(m2);
+            }
         }
     }
 }
