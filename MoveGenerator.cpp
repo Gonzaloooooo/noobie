@@ -508,6 +508,42 @@ bool MoveGenerator::isKingInCheck(const Board& board, int kingColor) {
     return false;
 }
 
+bool MoveGenerator::isSquareUnderAttack(const Board& board, int square, int attackerColor) {
+    if (square > 63 || square < 0) {
+        throw std::invalid_argument("square debe ser menor-igual de 63, o mayor-igual de 0");
+    }
+    if (color != Board::WHITE && color != Board::BLACK) {
+        throw std::invalid_argument("color debe ser 0 (WHITE) o 1 (NEGRO)");
+    }
+    uint64_t squareMask = 1ULL << square;
+    
+    uint64_t position = (attackerColor == WHITE) ? board.getWhiteBitBoard()
+                                                 : board.getBlackBitBoard();
+
+    uint64_t occupied = board.getOccupiedBitBoard();
+
+    uint64_t enemyPawns = board.getBitboardFromType((attackerColor == Board::WHITE) ? Board::W_PAWN : Board::B_PAWN);
+    uint64_t enemyBishop = board.getBitboardFromType((attackerColor == Board::WHITE) ? Board::W_BISHOP : Board::B_BISHOP);
+    uint64_t enemyKnight = board.getBitboardFromType((attackerColor == Board::WHITE) ? Board::W_KNIGHT : Board::B_KNIGHT);
+    uint64_t enemyTower = board.getBitboardFromType((attackerColor == Board::WHITE) ? Board::W_TOWER : Board::B_TOWER);
+    uint64_t enemyQueen = board.getBitboardFromType((attackerColor == Board::WHITE) ? Board::W_QUEEN : Board::B_QUEEN);
+    uint64_t enemyKing = board.getBitboardFromType((attackerColor == Board::WHITE) ? Board::W_KING : Board::B_KING);
+
+    uint64_t attacks = 0ULL;
+    attacks |= generatePawnAttacks(enemyPawns, oppColor);
+    attacks |= generateBishopAttacks(enemyBishop, position, occupied);
+    attacks |= generateKnightAttacks(enemyKnight, position, occupied);
+    attacks |= generateKnightAttacks(enemyTower, position, occupied);
+    attacks |= generateKnightAttacks(enemyQueen, position, occupied);
+    attacks |= generateKnightAttacks(enemyKing, position, occupied);
+
+    if (square & attacks) {
+        return true;
+    }
+
+    return false;
+}
+
 bool MoveGenerator::isLegal(const Board& board, Move m) {
     int color = (board.isWhiteToMove() ? WHITE : BLACK);
     int pieceIndex = m.piece;
@@ -575,6 +611,9 @@ bool MoveGenerator::isLegal(const Board& board, Move m) {
         int diff = abs(m.from - m.to);
         if (diff == 1 || diff == 9 || diff == 7 || diff == 8) {
             goto CHECK_KING;
+        }
+        else if (diff == 2) {
+            if (isHorizontalPathClear(m, occupied) /*&& COMPROBACIÓN DE QUE A LA CASILLA ENTREMEDIA NO APUNTA NINGUNA PIEZA ENEMIGA*/) {}
         }
     }
 
