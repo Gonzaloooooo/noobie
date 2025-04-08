@@ -11,6 +11,15 @@ struct Move {
         return from == other.from && to == other.to && promotion == other.promotion;
     }
 };
+struct BoardState {
+    uint64_t pieces[12];
+    bool whiteToMove;
+    bool whiteCastleLeft, whiteCastleRight;
+    bool blackCastleLeft, blackCastleRight;
+    Move lastMove;
+    bool stalemate;
+    int moves;
+};
 
 class Board
 {
