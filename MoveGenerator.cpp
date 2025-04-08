@@ -10,7 +10,9 @@ std::vector<Move> MoveGenerator::generateMoves(const Board& board, int color)
     generateQueenMoves(board, moves, color);
     generateKingMoves(board, moves, color);
 
-    filterMoves(board, moves);
+    filterMoves(board, moves, color);
+
+    moves.shrink_to_fit();
     return moves;
 }
 
@@ -356,8 +358,8 @@ void MoveGenerator::generateKingMoves(const Board& board, std::vector<Move>& mov
             // Enroque
             if ((color == Board::WHITE && from == 4) ||
                 (color == Board::BLACK && from == 60)) {
-                Move m1{ from, to + 2, KING, NULL_TYPE };
-                Move m2{ from, to - 2, KING, NULL_TYPE };
+                Move m1{ from, from + 2, KING, NULL_TYPE };
+                Move m2{ from, from - 2, KING, NULL_TYPE };
                 moves.push_back(m1);
                 moves.push_back(m2);
             }
@@ -512,15 +514,18 @@ bool MoveGenerator::isSquareUnderAttack(const Board& board, int square, int atta
     if (square > 63 || square < 0) {
         throw std::invalid_argument("square debe ser menor-igual de 63, o mayor-igual de 0");
     }
-    if (color != Board::WHITE && color != Board::BLACK) {
+    if (attackerColor != Board::WHITE && attackerColor != Board::BLACK) {
         throw std::invalid_argument("color debe ser 0 (WHITE) o 1 (NEGRO)");
     }
     uint64_t squareMask = 1ULL << square;
     
     uint64_t position = (attackerColor == WHITE) ? board.getWhiteBitBoard()
                                                  : board.getBlackBitBoard();
-
+    
     uint64_t occupied = board.getOccupiedBitBoard();
+
+    int oppColor = (attackerColor == BLACK) ? Board::WHITE 
+                                          : Board::BLACK;
 
     uint64_t enemyPawns = board.getBitboardFromType((attackerColor == Board::WHITE) ? Board::W_PAWN : Board::B_PAWN);
     uint64_t enemyBishop = board.getBitboardFromType((attackerColor == Board::WHITE) ? Board::W_BISHOP : Board::B_BISHOP);
@@ -544,8 +549,8 @@ bool MoveGenerator::isSquareUnderAttack(const Board& board, int square, int atta
     return false;
 }
 
-bool MoveGenerator::isLegal(const Board& board, Move m) {
-    int color = (board.isWhiteToMove() ? WHITE : BLACK);
+bool MoveGenerator::isLegal(const Board& board, Move m, int color) {
+    int oppColor = ((color == WHITE) ? BLACK : WHITE);
     int pieceIndex = m.piece;
     uint64_t occupied = board.getOccupiedBitBoard();
     uint64_t position = (board.isWhiteToMove() ? board.getWhiteBitBoard() : board.getBlackBitBoard());
@@ -572,7 +577,7 @@ bool MoveGenerator::isLegal(const Board& board, Move m) {
         return false;
     }
     else if (pieceIndex == PAWN) {
-        int direction = (board.isWhiteToMove()) ? 8 : -8; // Blancas suben, negras bajan
+        int direction = (color == Board::WHITE) ? 8 : -8; // Blancas suben, negras bajan
         // int startRow = (board.isWhiteToMove()) ? 8 : 48;  // Filas iniciales para peones
         int startRow = m.from / 8;
         //int startRank = m.from % 8;
@@ -612,9 +617,32 @@ bool MoveGenerator::isLegal(const Board& board, Move m) {
         if (diff == 1 || diff == 9 || diff == 7 || diff == 8) {
             goto CHECK_KING;
         }
-        else if (diff == 2) {
-            if (isHorizontalPathClear(m, occupied) /*&& COMPROBACIÓN DE QUE A LA CASILLA ENTREMEDIA NO APUNTA NINGUNA PIEZA ENEMIGA*/) {}
+        
+        if (((color == WHITE) && (m.from == 4) && board.getWhiteCastle())) {
+            if (isSameRank(m.from, m.to) && (diff == 2)) { // El rey se mueve dos a la izq o der
+                if (isHorizontalPathClear(m, occupied)) {
+                    if (m.from < m.to && !(isSquareUnderAttack(board, m.from + 1, oppColor)) && board.getRightWhiteCastle()) {
+                        goto CHECK_KING;
+                    }
+                    if (m.from > m.to && !(isSquareUnderAttack(board, m.from - 1, oppColor)) && board.getLeftWhiteCastle()) {
+                        goto CHECK_KING;
+                    }
+                }
+            }
         }
+        else if (((color == BLACK) && (m.from == 60) && board.getBlackCastle())) {
+            if (isSameRank(m.from, m.to) && (diff == 2)) { // El rey se mueve dos a la izq o der
+                if (isHorizontalPathClear(m, occupied)) {
+                    if (m.from < m.to && !(isSquareUnderAttack(board, m.from + 1, oppColor)) && board.getRightBlackCastle()) {
+                        goto CHECK_KING;
+                    }
+                    if (m.from > m.to && !(isSquareUnderAttack(board, m.from - 1, oppColor)) && board.getLeftBlackCastle()) {
+                        goto CHECK_KING;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 CHECK_KING:
@@ -625,10 +653,10 @@ CHECK_KING:
     return !isKingInCheck(auxBoard, color);
 }
 
-void MoveGenerator::filterMoves(const Board& board, std::vector<Move>& moves) {
+void MoveGenerator::filterMoves(const Board& board, std::vector<Move>& moves, int color) {
     for (int i = 0; i < moves.size(); i++) {
         Move move = moves.at(i);
-        if (!isLegal(board, move)) {
+        if (!isLegal(board, move, color)) {
             moves.erase(moves.begin()+i);
             i--;
         }
