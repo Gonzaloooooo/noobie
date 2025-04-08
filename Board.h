@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h> // Para uint64_t
 #include <iostream> // Para std::cout
+#include <stack>
 
 struct Move {
     int from;
@@ -45,6 +46,8 @@ private:
     // Último movimiento
     Move lastMove;
 
+    // Historial de la partida
+    std::stack<BoardState> history;
 public:
     // Constantes para indexar las piezas en el array 'pieces'
     static const short W_PAWN = 0;
