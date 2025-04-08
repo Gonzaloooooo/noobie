@@ -85,6 +85,7 @@ public:
     void printBitboard(uint64_t bitboard); // Imprime el bitboard en formato visual
     void makeMove(Move move);              // Realiza un movimiento de una casilla a otra
     void unmakeMove();                     // Deshace el último movimiento
+    int evaluate() const;
     void print();
 
     bool getBlackCastle() const; // Gets a boolean that indicates if castling is possible for black

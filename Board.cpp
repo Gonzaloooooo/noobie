@@ -264,6 +264,32 @@ void Board::unmakeMove() {
     moves = previousState.moves;
 }
 
+void Board::evaluate() {
+    int score = 0;
+
+    // Sumar piezas blancas
+    score += __builtin_popcountll(pieces[W_PAWN]) * PAWN_VALUE;
+    score += __builtin_popcountll(pieces[W_KNIGHT]) * KNIGHT_VALUE;
+    score += __builtin_popcountll(pieces[W_BISHOP]) * BISHOP_VALUE;
+    score += __builtin_popcountll(pieces[W_TOWER]) * ROOK_VALUE;
+    score += __builtin_popcountll(pieces[W_QUEEN]) * QUEEN_VALUE;
+
+    // Restar piezas negras (perspectiva blanca positiva)
+    score -= __builtin_popcountll(pieces[B_PAWN]) * PAWN_VALUE;
+    score -= __builtin_popcountll(pieces[B_KNIGHT]) * KNIGHT_VALUE;
+    score -= __builtin_popcountll(pieces[B_BISHOP]) * BISHOP_VALUE;
+    score -= __builtin_popcountll(pieces[B_TOWER]) * ROOK_VALUE;
+    score -= __builtin_popcountll(pieces[B_QUEEN]) * QUEEN_VALUE;
+
+    // Bonus por ocupación del centro (simplificado)
+    const uint64_t center = 0x0000001818000000ULL; // d4, e4, d5, e5
+    score += __builtin_popcountll(getWhiteBitBoard() & center) * 20;
+    score -= __builtin_popcountll(getBlackBitBoard() & center) * 20;
+
+    // Invertir si le toca a las negras
+    return isWhiteToMove() ? score : -score;
+}
+
 bool Board::validateMove(uint64_t from, uint64_t to) {
     bool valid = false;
     uint64_t occupied = getOccupiedBitBoard();
