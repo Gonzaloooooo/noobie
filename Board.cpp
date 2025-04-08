@@ -156,6 +156,19 @@ void Board::setStalemate(bool value) {
 
 void Board::makeMove(Move move) {
     if (!stalemate) {
+        BoardState currentState;
+        for (int i = 0; i < 12; i++) currentState.pieces[i] = pieces[i];
+        currentState.whiteToMove = whiteToMove;
+        currentState.whiteCastleLeft = whiteCastleLeft;
+        currentState.whiteCastleRight = whiteCastleRight;
+        currentState.blackCastleLeft = blackCastleLeft;
+        currentState.blackCastleRight = blackCastleRight;
+        currentState.lastMove = lastMove;
+        currentState.stalemate = stalemate;
+        currentState.moves = moves;
+
+        history.push(currentState);
+
         int pieceIndex = getBoardIndexFromMoveGenerator(move.piece);
         int lastMovePieceIndex = getBoardIndexFromMoveGenerator(lastMove.piece);
         int promotionIndex = getBoardIndexFromMoveGenerator(move.promotion);
