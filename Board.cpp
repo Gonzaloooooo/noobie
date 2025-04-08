@@ -70,27 +70,27 @@ void Board::print() {
     printBitboard(getOccupiedBitBoard());
 }
 
-bool Board::getBlackCastle() {
+bool Board::getBlackCastle() const {
     return blackCastleLeft || blackCastleRight;
 }
 
-bool Board::getLeftBlackCastle() {
+bool Board::getLeftBlackCastle() const {
     return blackCastleLeft;
 }
 
-bool Board::getRightBlackCastle() {
+bool Board::getRightBlackCastle() const {
     return blackCastleRight;
 }
 
-bool Board::getWhiteCastle() {
+bool Board::getWhiteCastle() const {
     return whiteCastleLeft || whiteCastleRight;
 }
 
-bool Board::getLeftWhiteCastle() {
+bool Board::getLeftWhiteCastle() const {
     return whiteCastleLeft;
 }
 
-bool Board::getRightWhiteCastle() {
+bool Board::getRightWhiteCastle() const {
     return whiteCastleRight;
 }
 
