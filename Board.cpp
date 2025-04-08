@@ -247,6 +247,23 @@ void Board::makeMove(Move move) {
     }
 }
 
+void Board::unmakeMove() {
+    if (history.empty()) return;
+
+    BoardState previousState = history.top();
+    history.pop();
+
+    for (int i = 0; i < 12; i++) pieces[i] = previousState.pieces[i];
+    whiteToMove = previousState.whiteToMove;
+    whiteCastleLeft = previousState.whiteCastleLeft;
+    whiteCastleRight = previousState.whiteCastleRight;
+    blackCastleLeft = previousState.blackCastleLeft;
+    blackCastleRight = previousState.blackCastleRight;
+    lastMove = previousState.lastMove;
+    stalemate = previousState.stalemate;
+    moves = previousState.moves;
+}
+
 bool Board::validateMove(uint64_t from, uint64_t to) {
     bool valid = false;
     uint64_t occupied = getOccupiedBitBoard();
