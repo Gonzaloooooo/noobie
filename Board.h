@@ -74,12 +74,12 @@ public:
     void makeMove(Move move);      // Realiza un movimiento de una casilla a otra
     void print();
 
-    bool getBlackCastle(); // Gets a boolean that indicates if castling is possible for black
-    bool getLeftBlackCastle();
-    bool getRightBlackCastle();
-    bool getWhiteCastle(); // Gets a boolean that indicates if castling is possible for white
-    bool getLeftWhiteCastle();
-    bool getRightWhiteCastle();
+    bool getBlackCastle() const; // Gets a boolean that indicates if castling is possible for black
+    bool getLeftBlackCastle() const;
+    bool getRightBlackCastle() const;
+    bool getWhiteCastle() const; // Gets a boolean that indicates if castling is possible for white
+    bool getLeftWhiteCastle() const;
+    bool getRightWhiteCastle() const;
     bool isWhiteToMove() const;  // Gets a boolean that indicates if white is making the next move
     void setWhiteToMove(bool value);
 
