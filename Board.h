@@ -2,6 +2,7 @@
 #include <stdint.h> // Para uint64_t
 #include <iostream> // Para std::cout
 #include <stack>
+#include <intrin.h>
 
 struct Move {
     int from;
@@ -66,6 +67,14 @@ public:
     // Constante para indicar el color de las piezas
     static const short WHITE = 0;
     static const short BLACK = 1;
+
+    // Constante para evaluar una posición
+    static const int PAWN_VALUE = 100;
+    static const int KNIGHT_VALUE = 320;
+    static const int BISHOP_VALUE = 330;
+    static const int ROOK_VALUE = 500;
+    static const int QUEEN_VALUE = 900;
+    static const int KING_VALUE = 20000;
 
     //Límites del tablero
     static const uint64_t left = 9259542123273814144ULL;
@@ -174,7 +183,4 @@ public:
     void setStalemate(bool value);
 
     Board clone() const;
-
-private:
-    bool validateMove(uint64_t from, uint64_t to);
 };
