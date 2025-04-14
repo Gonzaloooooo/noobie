@@ -264,32 +264,6 @@ void Board::unmakeMove() {
     moves = previousState.moves;
 }
 
-int Board::evaluate() const{
-    int score = 0;
-    
-    // Sumar piezas blancas
-    score += __popcnt64(pieces[W_PAWN]) * PAWN_VALUE;
-    score += __popcnt64(pieces[W_KNIGHT]) * KNIGHT_VALUE;
-    score += __popcnt64(pieces[W_BISHOP]) * BISHOP_VALUE;
-    score += __popcnt64(pieces[W_TOWER]) * ROOK_VALUE;
-    score += __popcnt64(pieces[W_QUEEN]) * QUEEN_VALUE;
-
-    // Restar piezas negras (perspectiva blanca positiva)
-    score -= __popcnt64(pieces[B_PAWN]) * PAWN_VALUE;
-    score -= __popcnt64(pieces[B_KNIGHT]) * KNIGHT_VALUE;
-    score -= __popcnt64(pieces[B_BISHOP]) * BISHOP_VALUE;
-    score -= __popcnt64(pieces[B_TOWER]) * ROOK_VALUE;
-    score -= __popcnt64(pieces[B_QUEEN]) * QUEEN_VALUE;
-
-    // Bonus por ocupación del centro (simplificado)
-    const uint64_t center = 0x0000001818000000ULL; // d4, e4, d5, e5
-    score += __popcnt64(getWhiteBitBoard() & center) * 20;
-    score -= __popcnt64(getBlackBitBoard() & center) * 20;
-
-    // Invertir si le toca a las negras
-    return isWhiteToMove() ? score : -score;
-}
-
 int Board::getBoardIndexFromMoveGenerator(int indexFromMoveGenerator) {
     int indexFromBoard;
     if (indexFromMoveGenerator == 0) {
