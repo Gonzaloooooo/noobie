@@ -155,7 +155,7 @@ void Board::setStalemate(bool value) {
 }
 
 void Board::makeMove(Move move) {
-    if (!stalemate) {
+    if (!stalemate && !checkmate) {
         BoardState currentState;
         for (int i = 0; i < 12; i++) currentState.pieces[i] = pieces[i];
         currentState.whiteToMove = whiteToMove;

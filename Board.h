@@ -43,6 +43,9 @@ private:
     // Rey ahogado
     bool stalemate = false;
 
+    // Jaque mate
+    bool checkmate = false;
+
     // Último movimiento
     Move lastMove;
 
@@ -66,8 +69,6 @@ public:
     // Constante para indicar el color de las piezas
     static const short WHITE = 0;
     static const short BLACK = 1;
-
-    
 
     //Límites del tablero
     static const uint64_t left = 9259542123273814144ULL;
