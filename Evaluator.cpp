@@ -2,6 +2,8 @@
 
 MoveGenerator moveGen;
 
+Move Evaluator::bestMove;
+
 int Evaluator::negamax(Board& board, int depth, int alpha, int beta) {
     if (depth == 0 || board.isStalemate() /* o board.isCheckmate() si lo tienes */) {
         return evaluate(board);
@@ -19,6 +21,7 @@ int Evaluator::negamax(Board& board, int depth, int alpha, int beta) {
         board.unmakeMove(); // Requiere implementación
 
         if (valor > mejorValor) {
+            Evaluator::setBestMove(movimiento);
             mejorValor = valor;
         }
 
@@ -59,3 +62,11 @@ int Evaluator::evaluate(Board& board) {
     return score;
 }
 
+Move Evaluator::getBestMove() {
+    return bestMove;
+}
+
+// Setter: asigna un nuevo mejor movimiento
+void Evaluator::setBestMove(Move move) {
+    bestMove = move;
+}
