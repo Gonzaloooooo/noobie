@@ -2,6 +2,7 @@
 #include <stdint.h> // Para uint64_t
 #include <iostream> // Para std::cout
 #include <stack>
+#include <vector>
 
 struct Move {
     int from;
@@ -100,6 +101,8 @@ public:
     void setWhiteToMove(bool value);
 
     int getMoves(); // Gets the number of moves that have happened in the match
+
+    const uint64_t(&getPieces() const)[12];
 
     Move getLastMove() const;
 
