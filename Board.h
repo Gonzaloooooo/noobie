@@ -87,7 +87,7 @@ public:
 
     // Métodos públicos
     void printBitboard(uint64_t bitboard); // Imprime el bitboard en formato visual
-    void makeMove(Move move);              // Realiza un movimiento de una casilla a otra
+    bool makeMove(Move move);              // Realiza un movimiento de una casilla a otra
     void unmakeMove();                     // Deshace el último movimiento
     void print();
 

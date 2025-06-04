@@ -2,6 +2,7 @@
 //
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include "Board.h"
 #include "MoveGenerator.h"
@@ -47,14 +48,35 @@ int main()
         }
 
         switch (option) {
-        case 0:
-            std::cout << "MAKE_MOVE" << std::endl;
+        case 0: // MAKE_MOVE
+            {
+                std::getline(std::cin, input);
+                std::istringstream iss(input);
+                int from, to, piece, promotion;
+                if (!(iss >> from >> to >> piece >> promotion)) {
+                    std::cerr << "OUTPUT:INPUT_ERROR" << std::endl;
+                    break;
+                }
+                Move m{ from, to, piece, promotion };
+                if (MoveGenerator::isLegal(b, m, (b.isWhiteToMove() ? Board::WHITE : Board::BLACK))) {
+                    b.makeMove(m);
+                    int alpha = -100000;
+                    int beta = 100000;
+                    int depth = 2;
+                    Evaluator::negamax(b, depth-1, alpha, beta);
+                    Move bestMove = Evaluator::getBestMove();
+                    b.makeMove(bestMove);
+                    std::cout << "Legal move carried out" << std::endl;
+                }
+                else {
+                    std::cout << "Illegal move" << std::endl;
+                }
+            }
             break;
-        case 1:
+        case 1: 
             std::cout << "GET_BEST_MOVE" << std::endl;
             break;
-        case 2:
-            //std::cout << "GET_POSITION" << std::endl;
+        case 2: // GET_POSITION
             for (int i = 0; i<12; i++) {
                 std::cout << static_cast<uint64_t>(pieces[i]);
                 if (i < 11) {
@@ -63,8 +85,7 @@ int main()
             }
             std::cout << std::endl;
             break;
-        case 3:
-            //std::cout << "GET_EVALUATION" << std::endl;
+        case 3: // GET_EVALUATION
             std::cout << evaluation << std::endl;
             break;
         case 4:
