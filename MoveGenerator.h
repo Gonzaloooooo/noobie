@@ -33,7 +33,6 @@ private:
     static void generateQueenMoves(const Board& board, std::vector<Move>& moves, int color);
     static void generateKingMoves(const Board& board, std::vector<Move>& moves, int color);
     // Métodos para la validación de movimientos
-    static bool isKingInCheck(const Board& board, int kingColor);
     static bool isPathClear(Move m, uint64_t occupied);
     static bool isHorizontalPathClear(Move m, uint64_t occupied);
     static bool isVerticalPathClear(Move m, uint64_t occupied);
@@ -47,6 +46,7 @@ private:
     static uint64_t generateQueenAttacks(uint64_t queens, uint64_t opposition, uint64_t occupied);
     static uint64_t generateKingAttacks(uint64_t king, uint64_t opposition, uint64_t occupied);
 public:
+    static bool isKingInCheck(const Board& board, int kingColor);
     static bool isLegal(const Board& board, Move move, int color);
 };
 

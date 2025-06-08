@@ -18,7 +18,7 @@ int Evaluator::negamax(Board& board, int depth, int alpha, int beta) {
 
         int valor = -negamax(board, depth - 1, -beta, -alpha);
 
-        board.unmakeMove(); // Requiere implementación
+        board.unmakeMove();
 
         if (valor > mejorValor) {
             Evaluator::setBestMove(movimiento);
@@ -47,17 +47,17 @@ int Evaluator::evaluate(Board& board) {
     score += __popcnt64(board.getBitboardFromType(Board::W_TOWER)) * ROOK_VALUE;
     score += __popcnt64(board.getBitboardFromType(Board::W_QUEEN)) * QUEEN_VALUE;
 
-    // Restar piezas negras (perspectiva blanca positiva)
+    // Restar piezas negras 
     score -= __popcnt64(board.getBitboardFromType(Board::B_PAWN)) * PAWN_VALUE;
     score -= __popcnt64(board.getBitboardFromType(Board::B_KNIGHT)) * KNIGHT_VALUE;
     score -= __popcnt64(board.getBitboardFromType(Board::B_BISHOP)) * BISHOP_VALUE;
     score -= __popcnt64(board.getBitboardFromType(Board::B_TOWER)) * ROOK_VALUE;
     score -= __popcnt64(board.getBitboardFromType(Board::B_QUEEN)) * QUEEN_VALUE;
 
-    // Bonus por ocupación del centro (simplificado)
-    // const uint64_t center = 0x0000001818000000ULL; // d4, e4, d5, e5
-    // score += __popcnt64(board.getWhiteBitBoard() & center) * 20;
-    // score -= __popcnt64(board.getBlackBitBoard() & center) * 20;
+    // Control del centro
+    const uint64_t center = 0x0000001818000000ULL; // d4, e4, d5, e5
+    //score += __popcnt64(board.getWhiteBitBoard() & center) * 20;
+    //score -= __popcnt64(board.getBlackBitBoard() & center) * 20;
 
     return score;
 }

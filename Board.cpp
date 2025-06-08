@@ -218,9 +218,33 @@ bool Board::makeMove(Move move) {
 
         // Comprobar el enroque
         if (pieceIndex == W_KING) {
+            if (move.from == 4 && move.to == 6 && whiteCastleRight) {
+                uint64_t from_tower_mask = 1ULL << 7;
+                uint64_t to_tower_mask = 1ULL << 5;
+                pieces[W_TOWER] |= to_tower_mask;
+                pieces[W_TOWER] &= ~from_tower_mask;
+            }
+            else if (move.from == 4 && move.to == 2 && whiteCastleLeft) {
+                uint64_t from_tower_mask = 1ULL << 0;
+                uint64_t to_tower_mask = 1ULL << 3;
+                pieces[W_TOWER] |= to_tower_mask;
+                pieces[W_TOWER] &= ~from_tower_mask;
+            }
             whiteCastleLeft = whiteCastleRight = false;
         }
         else if (pieceIndex == B_KING) {
+            if (move.from == 60 && move.to == 62 && blackCastleRight) {
+                uint64_t from_tower_mask = 1ULL << 63;
+                uint64_t to_tower_mask = 1ULL << 61;
+                pieces[B_TOWER] |= to_tower_mask;
+                pieces[B_TOWER] &= ~from_tower_mask;
+            }
+            else if (move.from == 60 && move.to == 57 && blackCastleLeft) {
+                uint64_t from_tower_mask = 1ULL << 56;
+                uint64_t to_tower_mask = 1ULL << 59;
+                pieces[B_TOWER] |= to_tower_mask;
+                pieces[B_TOWER] &= ~from_tower_mask;
+            }
             blackCastleLeft = blackCastleRight = false;
         }
         else if (pieceIndex == W_TOWER && move.from == 0) {

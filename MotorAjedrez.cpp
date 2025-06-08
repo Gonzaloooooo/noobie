@@ -58,15 +58,18 @@ int main()
                     break;
                 }
                 Move m{ from, to, piece, promotion };
-                if (MoveGenerator::isLegal(b, m, (b.isWhiteToMove() ? Board::WHITE : Board::BLACK))) {
+                int color = b.isWhiteToMove() ? Board::WHITE : Board::BLACK;
+                if (MoveGenerator::isLegal(b, m, color)) {
                     b.makeMove(m);
                     int alpha = -100000;
                     int beta = 100000;
                     int depth = 2;
                     Evaluator::negamax(b, depth-1, alpha, beta);
                     Move bestMove = Evaluator::getBestMove();
-                    b.makeMove(bestMove);
-                    std::cout << "Legal move carried out" << std::endl;
+                    bool result = b.makeMove(bestMove);
+                    if (result) {
+                        std::cout << "Legal move carried out" << std::endl;
+                    }
                 }
                 else {
                     std::cout << "Illegal move" << std::endl;
