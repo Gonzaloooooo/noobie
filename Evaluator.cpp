@@ -13,7 +13,7 @@ int Evaluator::negamax(Board& board, int depth, int alpha, int beta) {
     std::vector<Move> movimientos = moveGen.generateMoves(board, (board.isWhiteToMove() ? Board::WHITE : Board::BLACK));;
 
     for (const Move& movimiento : movimientos) {
-        // Guarda el estado previo, si es necesario
+
         board.makeMove(movimiento);
 
         int valor = -negamax(board, depth - 1, -beta, -alpha);
@@ -30,7 +30,7 @@ int Evaluator::negamax(Board& board, int depth, int alpha, int beta) {
         }
 
         if (alpha >= beta) {
-            break; // poda beta
+            break; // poda be
         }
     }
 
